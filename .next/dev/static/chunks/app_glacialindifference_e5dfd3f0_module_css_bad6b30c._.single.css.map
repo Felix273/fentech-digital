@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/app/glacialindifference_e5dfd3f0.module.css"],"sourcesContent":["@font-face {\n    \nfont-family: 'glacialIndifference';\n    src: url('@vercel/turbopack-next/internal/font/local/font?{%22path%22:%22./fonts/GlacialIndifference-Regular.otf%22,%22preload%22:true,%22has_size_adjust%22:true}') format('opentype');\n    font-display: swap;\n    \nfont-weight: 400;\nfont-style: normal;\n}\n@font-face {\n    \nfont-family: 'glacialIndifference';\n    src: url('@vercel/turbopack-next/internal/font/local/font?{%22path%22:%22./fonts/GlacialIndifference-Bold.otf%22,%22preload%22:true,%22has_size_adjust%22:true}') format('opentype');\n    font-display: swap;\n    \nfont-weight: 700;\nfont-style: normal;\n}\n\n@font-face {\n    font-family: 'glacialIndifference Fallback';\n    src: local(\"Arial\");\n    ascent-override: 97.99%;\ndescent-override: 25.79%;\nline-gap-override: 0.00%;\nsize-adjust: 96.95%;\n\n}\n\n.className {\n    font-family: 'glacialIndifference', 'glacialIndifference Fallback';\n    \n}\n.variable {\n    --font-glacial: 'glacialIndifference', 'glacialIndifference Fallback';\n}\n\n"],"names":[],"mappings":"AAAA;;;;;;;;AASA;;;;;;;;AAUA;;;;;;;;;AAUA;;;;AAIA"}}]
-}
