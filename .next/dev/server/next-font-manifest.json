@@ -1,0 +1,35 @@
+{
+  "app": {
+    "[project]/app/about/page": [
+      "static/media/GlacialIndifference_Regular-s.p.9a72bcac.otf",
+      "static/media/GlacialIndifference_Bold-s.p.e144c906.otf"
+    ],
+    "[project]/app/case-studies/[id]/page": [
+      "static/media/GlacialIndifference_Regular-s.p.9a72bcac.otf",
+      "static/media/GlacialIndifference_Bold-s.p.e144c906.otf"
+    ],
+    "[project]/app/case-studies/page": [
+      "static/media/GlacialIndifference_Regular-s.p.9a72bcac.otf",
+      "static/media/GlacialIndifference_Bold-s.p.e144c906.otf"
+    ],
+    "[project]/app/contact/page": [
+      "static/media/GlacialIndifference_Regular-s.p.9a72bcac.otf",
+      "static/media/GlacialIndifference_Bold-s.p.e144c906.otf"
+    ],
+    "[project]/app/page": [
+      "static/media/GlacialIndifference_Regular-s.p.9a72bcac.otf",
+      "static/media/GlacialIndifference_Bold-s.p.e144c906.otf"
+    ],
+    "[project]/app/services/page": [
+      "static/media/GlacialIndifference_Regular-s.p.9a72bcac.otf",
+      "static/media/GlacialIndifference_Bold-s.p.e144c906.otf"
+    ],
+    "[project]/app/services/web-development/page": [
+      "static/media/GlacialIndifference_Regular-s.p.9a72bcac.otf",
+      "static/media/GlacialIndifference_Bold-s.p.e144c906.otf"
+    ]
+  },
+  "appUsingSizeAdjust": true,
+  "pages": {},
+  "pagesUsingSizeAdjust": false
+}

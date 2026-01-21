@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 3, "column": 0}, "map": {"version":3,"sources":["file:///home/felix/DEVELOP/fentech-digital/app/layout.tsx"],"sourcesContent":["// app/layout.tsx\nconst glacialIndifference = localFont({\n  src: [\n    {\n      path: \"../public/fonts/GlacialIndifference-Regular.otf\", // Double check this line\n      weight: \"400\",\n      style: \"normal\",\n    },\n    // ... rest of your config\n  ],\n  variable: \"--font-glacial\",\n});"],"names":[],"mappings":"AAAA,iBAAiB;AACjB,MAAM,sBAAsB,UAAU;IACpC,KAAK;QACH;YACE,MAAM;YACN,QAAQ;YACR,OAAO;QACT;KAED;IACD,UAAU;AACZ"}}]
+}
