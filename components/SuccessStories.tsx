@@ -1,36 +1,60 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { Check, ArrowRight, TrendingUp, Cpu, Smartphone } from "lucide-react";
+import { Check, ArrowRight, TrendingUp, Cpu, Smartphone, RefreshCw } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
-const stories = [
-  {
-    category: "Cloud Hosting",
-    title: "Major Insurance Provider Saves $750k per Month With Big Data Migration",
-    desc: "The company needed to complete a complex migration on a tight deadline to avoid millions of dollars in post-contract fees and fines.",
-    icon: TrendingUp,
-    tags: ["Modern infrastructure", "Consulting services"],
-    color: "bg-blue-600"
-  },
-  {
-    category: "IT Consulting",
-    title: "Maximizing Efficiency with Proper Technology Implementation – Coffee Success Story",
-    desc: "The company needed to complete a complex migration on a tight deadline to avoid millions of dollars in post-contract fees and fines.",
-    icon: Cpu,
-    tags: ["Modern infrastructure", "Consulting services"],
-    color: "bg-slate-900"
-  },
-  {
-    category: "Mobile development",
-    title: "Strategic Move to an AI-supported application for Public Safety Travel App in London",
-    desc: "Travel confidently around London with maps and live travel updates. Our reliable journey planner will map a safe route.",
-    icon: Smartphone,
-    tags: ["Modern infrastructure", "Consulting services"],
-    color: "bg-blue-500"
-  }
-];
+const iconMap = {
+  "Cloud Hosting": TrendingUp,
+  "IT Consulting": Cpu,
+  "Mobile Development": Smartphone,
+  "App Development": Smartphone,
+  "Web Development": Cpu,
+  "Cyber Security": TrendingUp,
+  "default": TrendingUp
+};
+
+const colorMap = {
+  "Cloud Hosting": "bg-blue-600",
+  "IT Consulting": "bg-slate-900",
+  "Mobile Development": "bg-blue-500",
+  "App Development": "bg-purple-600",
+  "Web Development": "bg-green-600",
+  "Cyber Security": "bg-red-600",
+  "default": "bg-blue-600"
+};
 
 export default function SuccessStories() {
+  const [stories, setStories] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadStories();
+  }, []);
+
+  const loadStories = async () => {
+    const { data, error } = await supabase
+      .from('case_studies')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(3);
+
+    if (data) {
+      setStories(data);
+    }
+    setLoading(false);
+  };
+
+  if (loading) {
+    return (
+      <section className="py-24 px-6 bg-white flex items-center justify-center">
+        <RefreshCw className="animate-spin text-blue-600" size={48} />
+      </section>
+    );
+  }
+
   return (
     <section className="py-24 px-6 bg-white">
       <div className="max-w-7xl mx-auto">
@@ -49,10 +73,13 @@ export default function SuccessStories() {
         {/* Stories Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {stories.map((story, index) => {
-            const Icon = story.icon;
+            const Icon = iconMap[story.category] || iconMap.default;
+            const color = colorMap[story.category] || colorMap.default;
+            const tags = story.results ? story.results.slice(0, 2) : [];
+
             return (
               <motion.div 
-                key={index}
+                key={story.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -60,7 +87,7 @@ export default function SuccessStories() {
                 className="group flex flex-col bg-slate-50 rounded-2xl overflow-hidden border border-slate-100 hover:shadow-2xl transition-all duration-500"
               >
                 {/* Visual Header of the card */}
-                <div className={`h-2 ${story.color}`} />
+                <div className={`h-2 ${color}`} />
                 
                 <div className="p-10 flex flex-col flex-grow">
                   <div className="flex items-center justify-between mb-8">
@@ -77,11 +104,11 @@ export default function SuccessStories() {
                   </h3>
                   
                   <p className="text-slate-600 text-lg font-light leading-relaxed mb-8 flex-grow">
-                    {story.desc}
+                    {story.challenge || story.about.substring(0, 150)}
                   </p>
 
                   <div className="space-y-3 mb-10">
-                    {story.tags.map((tag, i) => (
+                    {tags.map((tag, i) => (
                       <div key={i} className="flex items-center gap-2">
                         <div className="flex-shrink-0 w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center">
                           <Check size={12} className="text-blue-600" strokeWidth={3} />
@@ -91,10 +118,13 @@ export default function SuccessStories() {
                     ))}
                   </div>
 
-                  <button className="flex items-center gap-3 text-slate-900 font-bold uppercase tracking-widest text-xs group-hover:text-blue-600 transition-all">
+                  <Link 
+                    href={`/case-studies/${story.id}`}
+                    className="flex items-center gap-3 text-slate-900 font-bold uppercase tracking-widest text-xs group-hover:text-blue-600 transition-all"
+                  >
                     Learn More 
                     <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform" />
-                  </button>
+                  </Link>
                 </div>
               </motion.div>
             );
