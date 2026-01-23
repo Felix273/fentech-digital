@@ -1,26 +1,66 @@
 "use client";
 
-import React from "react";
-import { caseStudiesData } from "../data";
-import { notFound } from "next/navigation";
+import React, { useState, useEffect } from "react";
+import { notFound, useRouter } from "next/navigation";
 import Link from "next/link";
-import { Check, Star, Phone, ArrowRight, ArrowLeft } from "lucide-react";
+import { Check, Star, ArrowRight, ArrowLeft } from "lucide-react";
 import Footer from "@/components/Footer";
 
-// We make the function async to handle the params Promise
 export default function SingleCaseStudyPage({ params }: { params: Promise<{ id: string }> }) {
-  
-  // 1. Unwrap the params Promise using React.use() or await (if this were a Server Component)
-  // For a "use client" component, we use React.use()
   const resolvedParams = React.use(params);
   const id = resolvedParams.id;
+  const router = useRouter();
 
-  // 2. Find the specific data object
-  const project = caseStudiesData.find((p) => p.id === id);
+  const [project, setProject] = useState(null);
+  const [relatedProjects, setRelatedProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // 3. Handle 404
+  useEffect(() => {
+    loadCaseStudy();
+  }, [id]);
+
+  const loadCaseStudy = async () => {
+    try {
+      const saved = localStorage.getItem('caseStudies');
+      let caseStudiesData;
+      
+      if (saved) {
+        caseStudiesData = JSON.parse(saved);
+      } else {
+        const module = await import('@/lib/data/case-studies');
+        caseStudiesData = module.caseStudiesData;
+        localStorage.setItem('caseStudies', JSON.stringify(caseStudiesData));
+      }
+
+      const currentProject = caseStudiesData.find((p) => p.id === id);
+      
+      if (!currentProject) {
+        router.push('/case-studies');
+        return;
+      }
+
+      setProject(currentProject);
+      setRelatedProjects(caseStudiesData.filter((item) => item.id !== id).slice(0, 3));
+      setLoading(false);
+    } catch (error) {
+      console.error('Error loading case study:', error);
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading case study...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (!project) {
-    notFound();
+    return null;
   }
 
   return (
@@ -132,7 +172,7 @@ export default function SingleCaseStudyPage({ params }: { params: Promise<{ id: 
                 <div className="bg-slate-900 p-12 rounded-[2.5rem] text-white overflow-hidden relative">
                     <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/20 blur-3xl rounded-full" />
                     <h4 className="text-3xl font-bold mb-6 relative z-10">Ready to replicate these results?</h4>
-                    <p className="text-slate-400 mb-10 font-light relative z-10">Let’s discuss how Fentech can optimize your infrastructure.</p>
+                    <p className="text-slate-400 mb-10 font-light relative z-10">Let's discuss how Fentech can optimize your infrastructure.</p>
                     <Link href="/contact" className="inline-flex items-center gap-2 bg-blue-600 text-white px-10 py-4 rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-white hover:text-blue-600 transition-all shadow-xl shadow-blue-800/40 relative z-10">
                         Schedule a Consultation <ArrowRight size={12} />
                     </Link>
@@ -141,47 +181,44 @@ export default function SingleCaseStudyPage({ params }: { params: Promise<{ id: 
         </div>
       </section>
 
-      {/* --- 5. RELATED PROJECTS (The Discovery Loop) --- */}
-<section className="w-full py-32 bg-slate-50 border-t border-slate-200 flex justify-center">
-  <div className="w-[85%] max-w-7xl">
-    <div className="flex justify-between items-end mb-16">
-      <div>
-        <span className="text-blue-600 font-black text-[10px] uppercase tracking-[0.4em] mb-4 block">Keep Exploring</span>
-        <h2 className="text-4xl font-bold text-slate-900 tracking-tight">Recent Case Studies</h2>
-      </div>
-      <Link href="/case-studies" className="hidden md:block text-slate-900 font-bold text-xs uppercase tracking-widest border-b-2 border-slate-900 pb-2 hover:text-blue-600 hover:border-blue-600 transition-all">
-        View Portfolio
-      </Link>
-    </div>
-
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-      {caseStudiesData
-        .filter((item) => item.id !== id) // 1. Remove the current project
-        .slice(0, 3) // 2. Show only the top 3 remaining
-        .map((related) => (
-          <Link 
-            key={related.id} 
-            href={`/case-studies/${related.id}`}
-            className="group bg-white rounded-2xl p-8 border border-slate-200 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 flex flex-col h-full"
-          >
-            <span className="text-blue-600 font-bold text-[9px] uppercase tracking-[0.3em] mb-4">
-              {related.category}
-            </span>
-            <h4 className="text-xl font-bold text-slate-900 mb-4 leading-tight group-hover:text-blue-600 transition-colors">
-              {related.title}
-            </h4>
-            <p className="text-slate-500 text-sm font-light leading-relaxed mb-8 line-clamp-2">
-              {related.about}
-            </p>
-            <div className="mt-auto pt-6 border-t border-slate-50 flex items-center justify-between">
-                <span className="text-[10px] font-black uppercase tracking-widest text-slate-900">View Case</span>
-                <ArrowRight size={16} className="text-blue-600 -translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all" />
+      {/* 5. RELATED PROJECTS */}
+      <section className="w-full py-32 bg-slate-50 border-t border-slate-200 flex justify-center">
+        <div className="w-[85%] max-w-7xl">
+          <div className="flex justify-between items-end mb-16">
+            <div>
+              <span className="text-blue-600 font-black text-[10px] uppercase tracking-[0.4em] mb-4 block">Keep Exploring</span>
+              <h2 className="text-4xl font-bold text-slate-900 tracking-tight">Recent Case Studies</h2>
             </div>
-          </Link>
-        ))}
-    </div>
-  </div>
-</section>
+            <Link href="/case-studies" className="hidden md:block text-slate-900 font-bold text-xs uppercase tracking-widest border-b-2 border-slate-900 pb-2 hover:text-blue-600 hover:border-blue-600 transition-all">
+              View Portfolio
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {relatedProjects.map((related) => (
+              <Link 
+                key={related.id} 
+                href={`/case-studies/${related.id}`}
+                className="group bg-white rounded-2xl p-8 border border-slate-200 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 flex flex-col h-full"
+              >
+                <span className="text-blue-600 font-bold text-[9px] uppercase tracking-[0.3em] mb-4">
+                  {related.category}
+                </span>
+                <h4 className="text-xl font-bold text-slate-900 mb-4 leading-tight group-hover:text-blue-600 transition-colors">
+                  {related.title}
+                </h4>
+                <p className="text-slate-500 text-sm font-light leading-relaxed mb-8 line-clamp-2">
+                  {related.about}
+                </p>
+                <div className="mt-auto pt-6 border-t border-slate-50 flex items-center justify-between">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-900">View Case</span>
+                    <ArrowRight size={16} className="text-blue-600 -translate-x-4 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all" />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <Footer />
     </main>

@@ -1,160 +1,146 @@
 "use client";
 
-import React from "react";
-import { Check } from "lucide-react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import ServiceHero from "@/components/ServiceHero";
-import Footer from "@/components/Footer";
-// Import the central data source
-import { caseStudiesData } from "./data"; 
+import { motion } from "framer-motion";
+import { Star, ArrowRight, Filter, RefreshCw } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 export default function CaseStudiesPage() {
-  return (
-    <main className="bg-white min-h-screen selection:bg-blue-600 selection:text-white">
-      <ServiceHero 
-        title="Case Studies" 
-        subtitle="Featured case studies" 
-      />
+  const [caseStudies, setCaseStudies] = useState([]);
+  const [filteredStudies, setFilteredStudies] = useState([]);
+  const [activeFilter, setActiveFilter] = useState("All");
+  const [loading, setLoading] = useState(true);
 
-      {/* --- CASE STUDIES GRID --- */}
-      <section className="w-full flex justify-center py-24 bg-slate-50">
+  useEffect(() => {
+    loadCaseStudies();
+  }, []);
+
+  const loadCaseStudies = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('case_studies')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (data) {
+        setCaseStudies(data);
+        setFilteredStudies(data);
+      }
+      setLoading(false);
+    } catch (error) {
+      console.error('Error loading case studies:', error);
+      setLoading(false);
+    }
+  };
+
+  const categories = ["All", ...new Set(caseStudies.map(c => c.category))];
+
+  const filterProjects = (category) => {
+    setActiveFilter(category);
+    if (category === "All") {
+      setFilteredStudies(caseStudies);
+    } else {
+      setFilteredStudies(caseStudies.filter(c => c.category === category));
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#F4F7FA]">
+        <div className="text-center">
+          <RefreshCw className="animate-spin mx-auto mb-4 text-blue-600" size={48} />
+          <p className="mt-4 text-gray-600">Loading case studies from database...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <main className="bg-[#F4F7FA] min-h-screen">
+      {/* HERO SECTION */}
+      <section className="w-full pt-40 pb-20 flex justify-center bg-white border-b border-slate-100">
+        <div className="w-[85%] max-w-7xl text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <span className="text-blue-600 font-bold text-[10px] uppercase tracking-[0.4em] mb-6 block">
+              Our Work
+            </span>
+            <h1 className="text-5xl md:text-7xl font-bold text-slate-900 mb-8 tracking-tight">
+              Case Studies
+            </h1>
+            <p className="text-slate-500 text-xl max-w-3xl mx-auto font-light leading-relaxed">
+              Real results from real clients. Explore how we've helped businesses transform their digital infrastructure.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* FILTER SECTION */}
+      <section className="w-full flex justify-center py-12 bg-white border-b border-slate-100">
         <div className="w-[85%] max-w-7xl">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            {caseStudiesData.map((study) => (
-              <div key={study.id} className="bg-white rounded-xl overflow-hidden shadow-sm border border-slate-100 flex flex-col group hover:shadow-xl transition-all duration-300">
-                <div className="h-48 overflow-hidden">
-                  <img 
-                    src={study.image} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-                    alt={study.title} 
-                  />
-                </div>
-                <div className="p-8 flex flex-col flex-grow">
-                  <span className="text-blue-600 font-bold text-[10px] uppercase tracking-widest mb-3">
-                    {study.category}
-                  </span>
-                  <h3 className="text-xl font-bold text-slate-900 mb-4 leading-snug group-hover:text-blue-600 transition-colors">
-                    {study.title}
-                  </h3>
-                  
-                  {/* Using 'about' or 'challenge' as a fallback for the description */}
-                  <p className="text-slate-500 text-sm leading-relaxed mb-6 flex-grow line-clamp-3">
-                    {study.about}
-                  </p>
-                  
-                  <div className="space-y-2 mb-8">
-                    {/* Mapping through results or generic tags */}
-                    {study.results.slice(0, 2).map((result, idx) => (
-                      <div key={idx} className="flex items-center gap-2 text-slate-700 text-sm">
-                        <span className="text-blue-600">✔︎</span> {result}
-                      </div>
-                    ))}
-                  </div>
-                  
-                  {/* ACTIVATED DYNAMIC LINK */}
-                  <Link 
-                    href={`/case-studies/${study.id}`} 
-                    className="text-blue-600 font-bold text-sm flex items-center gap-2 hover:gap-4 transition-all"
-                  >
-                    Learn more <span className="text-lg">→</span>
-                  </Link>
-                </div>
-              </div>
+          <div className="flex flex-wrap items-center gap-3">
+            <Filter size={18} className="text-slate-400" />
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => filterProjects(cat)}
+                className={`px-6 py-2 rounded-full font-bold text-sm transition-all ${
+                  activeFilter === cat
+                    ? "bg-blue-600 text-white shadow-lg"
+                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                }`}
+              >
+                {cat}
+              </button>
             ))}
           </div>
         </div>
       </section>
 
-      {/* --- CONTACT & WORKFLOW SECTION --- */}
-      <section className="w-full flex justify-center py-24 border-t border-slate-100">
-        <div className="w-[85%] max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-20">
-          
-          {/* Left Column: Info */}
-          <div>
-            <span className="text-blue-600 font-bold text-xs uppercase tracking-[0.3em] mb-4 block">Contact us</span>
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-8 tracking-tight">Partner with Us for Comprehensive IT</h2>
-            <p className="text-slate-500 text-lg mb-10 leading-relaxed">
-              We’re happy to answer any questions you may have and help you determine which of our services best fit your needs.
-            </p>
-            
-            <div className="mb-12">
-              <p className="text-slate-400 text-sm uppercase font-bold tracking-widest mb-1">Call us at:</p>
-              <p className="text-2xl font-bold text-blue-600">1-800-356-8933</p>
-            </div>
+      {/* CASE STUDIES GRID */}
+      <section className="w-full flex justify-center py-20">
+        <div className="w-[85%] max-w-7xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            {filteredStudies.map((project, index) => (
+              <motion.div
+                key={project.id}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <Link
+                  href={`/case-studies/${project.id}`}
+                  className="group bg-white rounded-2xl p-8 border border-slate-200 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 flex flex-col h-full"
+                >
+                  <span className="text-blue-600 font-bold text-[9px] uppercase tracking-[0.3em] mb-4">
+                    {project.category}
+                  </span>
+                  <h3 className="text-2xl font-bold text-slate-900 mb-4 leading-tight group-hover:text-blue-600 transition-colors">
+                    {project.title}
+                  </h3>
+                  <p className="text-slate-500 text-sm font-light leading-relaxed mb-6 flex-grow">
+                    {project.about.substring(0, 120)}...
+                  </p>
 
-            <div className="grid grid-cols-2 gap-y-4 mb-16">
-              <div className="space-y-4">
-                <p className="font-bold text-slate-900 flex flex-col">Your benefits:</p>
-                {["Client-oriented", "Independent", "Competent"].map(b => (
-                  <div key={b} className="flex items-center gap-2 text-slate-600 text-sm">
-                    <Check size={16} className="text-blue-600" /> {b}
+                  <div className="flex items-center justify-between pt-6 border-t border-slate-100">
+                    <div className="flex items-center gap-1">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} size={14} className="fill-yellow-400 text-yellow-400" />
+                      ))}
+                      <span className="text-xs text-slate-500 ml-2">{project.rating}</span>
+                    </div>
+                    <ArrowRight size={18} className="text-blue-600 group-hover:translate-x-2 transition-transform" />
                   </div>
-                ))}
-              </div>
-              <div className="space-y-4 pt-6">
-                {["Results-driven", "Problem-solving", "Transparent"].map(b => (
-                  <div key={b} className="flex items-center gap-2 text-slate-600 text-sm">
-                    <Check size={16} className="text-blue-600" /> {b}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="bg-slate-50 p-10 rounded-2xl border border-slate-100">
-              <p className="font-bold text-slate-900 mb-8 uppercase tracking-widest text-xs">What happens next?</p>
-              <div className="space-y-8">
-                {[
-                  { n: "1", t: "We Schedule a call at your convenience" },
-                  { n: "2", t: "We do a discovery and consulting meeting" },
-                  { n: "3", t: "We prepare a proposal" }
-                ].map(step => (
-                  <div key={step.n} className="flex gap-6">
-                    <span className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold shrink-0">{step.n}</span>
-                    <p className="text-slate-700 font-medium pt-2">{step.t}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
+                </Link>
+              </motion.div>
+            ))}
           </div>
-
-          {/* Right Column: Form */}
-          <div className="bg-white p-10 rounded-3xl border border-slate-200 shadow-2xl shadow-slate-200/50">
-            <h3 className="text-2xl font-bold mb-8 text-slate-900">Schedule a Free Consultation</h3>
-            <form className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <input type="text" placeholder="First name" className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-600 transition-colors" />
-                <input type="text" placeholder="Last name" className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-600 transition-colors" />
-              </div>
-              <input type="text" placeholder="Company / Organization" className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-600 transition-colors" />
-              <input type="email" placeholder="Company email" className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-600 transition-colors" />
-              <input type="tel" placeholder="Phone" className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-600 transition-colors" />
-              
-              <div className="space-y-2">
-                <label className="text-xs font-bold text-slate-400 uppercase tracking-widest">How Can We Help You?</label>
-                <select className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-600 transition-colors appearance-none">
-                  <option>Select Option</option>
-                  <option>Managed Services</option>
-                  <option>IT Consulting & Advisory</option>
-                  <option>Cyber Security</option>
-                  <option>Web Development</option>
-                  <option>Mobile Development</option>
-                  <option>Cloud Services</option>
-                  <option>Other</option>
-                </select>
-              </div>
-
-              <textarea placeholder="Message" rows={4} className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-600 transition-colors" />
-              
-              <button className="w-full py-5 bg-blue-600 text-white font-black uppercase tracking-widest text-xs rounded-xl hover:bg-slate-900 transition-all shadow-lg shadow-blue-200">
-                Submit
-              </button>
-            </form>
-          </div>
-
         </div>
       </section>
-
-      <Footer />
     </main>
   );
 }
