@@ -8,6 +8,7 @@ export default function AdminDashboard() {
   const [services, setServices] = useState([]);
   const [caseStudies, setCaseStudies] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
+  const [footerSettings, setFooterSettings] = useState(null);
   const [editingItem, setEditingItem] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -19,20 +20,37 @@ export default function AdminDashboard() {
   const loadData = async () => {
     setLoading(true);
     try {
-      const [servicesRes, caseStudiesRes, testimonialsRes] = await Promise.all([
+      const [servicesRes, caseStudiesRes, testimonialsRes, footerRes] = await Promise.all([
         supabase.from('services').select('*'),
         supabase.from('case_studies').select('*'),
-        supabase.from('testimonials').select('*')
+        supabase.from('testimonials').select('*'),
+        supabase.from('footer_settings').select('*').eq('id', 'default').single()
       ]);
 
       if (servicesRes.data) setServices(servicesRes.data);
       if (caseStudiesRes.data) setCaseStudies(caseStudiesRes.data);
       if (testimonialsRes.data) setTestimonials(testimonialsRes.data);
+      if (footerRes.data) setFooterSettings(footerRes.data);
     } catch (error) {
       console.error('Error loading data:', error);
       alert('Error loading data from database');
     }
     setLoading(false);
+  };
+
+  const updateFooterSettings = async () => {
+    setSaving(true);
+    const { error } = await supabase
+      .from('footer_settings')
+      .update(footerSettings)
+      .eq('id', 'default');
+
+    if (error) {
+      alert('Error updating footer: ' + error.message);
+    } else {
+      alert('✅ Footer settings updated successfully!');
+    }
+    setSaving(false);
   };
 
   const updateService = async (id, updates) => {
@@ -130,16 +148,17 @@ export default function AdminDashboard() {
             </button>
           </div>
 
-          <div className="flex gap-4 mb-8 border-b">
+          <div className="flex gap-4 mb-8 border-b overflow-x-auto">
             {[
               { key: 'services', label: 'Services' },
               { key: 'case-studies', label: 'Case Studies' },
-              { key: 'testimonials', label: 'Testimonials' }
+              { key: 'testimonials', label: 'Testimonials' },
+              { key: 'footer', label: 'Footer Settings' }
             ].map((tab) => (
               <button
                 key={tab.key}
                 onClick={() => setActiveTab(tab.key)}
-                className={`px-6 py-3 font-semibold ${
+                className={`px-6 py-3 font-semibold whitespace-nowrap ${
                   activeTab === tab.key ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-600 hover:text-blue-600'
                 }`}
               >
@@ -306,6 +325,117 @@ export default function AdminDashboard() {
                     )}
                   </div>
                 ))}
+              </div>
+            )}
+
+            {activeTab === 'footer' && footerSettings && (
+              <div className="max-w-4xl">
+                <h2 className="text-2xl font-bold text-gray-800 mb-6">Footer Settings</h2>
+                <div className="bg-white border border-gray-200 rounded-lg p-8 space-y-6">
+                  
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Company Description</label>
+                    <textarea
+                      value={footerSettings.company_description}
+                      onChange={(e) => setFooterSettings({...footerSettings, company_description: e.target.value})}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      rows="3"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">Phone Number</label>
+                      <input
+                        type="text"
+                        value={footerSettings.phone}
+                        onChange={(e) => setFooterSettings({...footerSettings, phone: e.target.value})}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
+                      <input
+                        type="email"
+                        value={footerSettings.email}
+                        onChange={(e) => setFooterSettings({...footerSettings, email: e.target.value})}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Physical Address</label>
+                    <input
+                      type="text"
+                      value={footerSettings.address}
+                      onChange={(e) => setFooterSettings({...footerSettings, address: e.target.value})}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                  </div>
+
+                  <div className="pt-6 border-t border-gray-200">
+                    <h3 className="text-lg font-bold text-gray-800 mb-4">Social Media Links</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">Facebook URL</label>
+                        <input
+                          type="url"
+                          value={footerSettings.facebook_url}
+                          onChange={(e) => setFooterSettings({...footerSettings, facebook_url: e.target.value})}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          placeholder="https://facebook.com/..."
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">Twitter URL</label>
+                        <input
+                          type="url"
+                          value={footerSettings.twitter_url}
+                          onChange={(e) => setFooterSettings({...footerSettings, twitter_url: e.target.value})}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          placeholder="https://twitter.com/..."
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">LinkedIn URL</label>
+                        <input
+                          type="url"
+                          value={footerSettings.linkedin_url}
+                          onChange={(e) => setFooterSettings({...footerSettings, linkedin_url: e.target.value})}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          placeholder="https://linkedin.com/..."
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-700 mb-2">Instagram URL</label>
+                        <input
+                          type="url"
+                          value={footerSettings.instagram_url}
+                          onChange={(e) => setFooterSettings({...footerSettings, instagram_url: e.target.value})}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          placeholder="https://instagram.com/..."
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="pt-6">
+                    <button
+                      onClick={updateFooterSettings}
+                      disabled={saving}
+                      className="w-full md:w-auto flex items-center justify-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-lg hover:bg-blue-700 transition font-semibold disabled:opacity-50"
+                    >
+                      <Save size={20} />
+                      {saving ? 'Saving...' : 'Save Footer Settings'}
+                    </button>
+                  </div>
+
+                </div>
               </div>
             )}
           </div>
