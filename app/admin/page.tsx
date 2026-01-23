@@ -9,6 +9,7 @@ export default function AdminDashboard() {
   const [caseStudies, setCaseStudies] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
   const [footerSettings, setFooterSettings] = useState(null);
+  const [heroSettings, setHeroSettings] = useState(null);
   const [editingItem, setEditingItem] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -20,17 +21,19 @@ export default function AdminDashboard() {
   const loadData = async () => {
     setLoading(true);
     try {
-      const [servicesRes, caseStudiesRes, testimonialsRes, footerRes] = await Promise.all([
+      const [servicesRes, caseStudiesRes, testimonialsRes, footerRes, heroRes] = await Promise.all([
         supabase.from('services').select('*'),
         supabase.from('case_studies').select('*'),
         supabase.from('testimonials').select('*'),
-        supabase.from('footer_settings').select('*').eq('id', 'default').single()
-      ]);
+        supabase.from('footer_settings').select('*').eq('id', 'default').single(),
+        supabase.from('hero_settings').select('*').eq('id', 'default').single()
+  ]);
 
       if (servicesRes.data) setServices(servicesRes.data);
       if (caseStudiesRes.data) setCaseStudies(caseStudiesRes.data);
       if (testimonialsRes.data) setTestimonials(testimonialsRes.data);
       if (footerRes.data) setFooterSettings(footerRes.data);
+      if (heroRes.data) setHeroSettings(heroRes.data);
     } catch (error) {
       console.error('Error loading data:', error);
       alert('Error loading data from database');
@@ -153,7 +156,8 @@ export default function AdminDashboard() {
               { key: 'services', label: 'Services' },
               { key: 'case-studies', label: 'Case Studies' },
               { key: 'testimonials', label: 'Testimonials' },
-              { key: 'footer', label: 'Footer Settings' }
+              { key: 'footer', label: 'Footer Settings' },
+              { key: 'hero', label: 'Hero Settings' }
             ].map((tab) => (
               <button
                 key={tab.key}
@@ -438,6 +442,140 @@ export default function AdminDashboard() {
                 </div>
               </div>
             )}
+
+            {activeTab === 'hero' && heroSettings && (
+  <div className="max-w-4xl">
+    <h2 className="text-2xl font-bold text-gray-800 mb-6">Hero Section Settings</h2>
+    <div className="bg-white border border-gray-200 rounded-lg p-8 space-y-6">
+      
+      <div>
+        <label className="block text-sm font-semibold text-gray-700 mb-2">Accent Text (Top small text)</label>
+        <input
+          type="text"
+          value={heroSettings.accent_text}
+          onChange={(e) => setHeroSettings({...heroSettings, accent_text: e.target.value})}
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          placeholder="IT Solutions & Services"
+        />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">Main Headline (First line)</label>
+          <input
+            type="text"
+            value={heroSettings.main_headline}
+            onChange={(e) => setHeroSettings({...heroSettings, main_headline: e.target.value})}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Leading the"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">Highlight Text (Gradient text)</label>
+          <input
+            type="text"
+            value={heroSettings.highlight_text}
+            onChange={(e) => setHeroSettings({...heroSettings, highlight_text: e.target.value})}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="Digital Evolution"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label className="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+        <textarea
+          value={heroSettings.description}
+          onChange={(e) => setHeroSettings({...heroSettings, description: e.target.value})}
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          rows="3"
+          placeholder="Your company description..."
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-semibold text-gray-700 mb-2">Background Image URL</label>
+        <input
+          type="url"
+          value={heroSettings.background_image}
+          onChange={(e) => setHeroSettings({...heroSettings, background_image: e.target.value})}
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          placeholder="https://..."
+        />
+      </div>
+
+      <div className="pt-6 border-t border-gray-200">
+        <h3 className="text-lg font-bold text-gray-800 mb-4">Button Settings</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">Primary Button Text</label>
+            <input
+              type="text"
+              value={heroSettings.primary_button_text}
+              onChange={(e) => setHeroSettings({...heroSettings, primary_button_text: e.target.value})}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">Primary Button Link</label>
+            <input
+              type="text"
+              value={heroSettings.primary_button_link}
+              onChange={(e) => setHeroSettings({...heroSettings, primary_button_link: e.target.value})}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">Secondary Button Text</label>
+            <input
+              type="text"
+              value={heroSettings.secondary_button_text}
+              onChange={(e) => setHeroSettings({...heroSettings, secondary_button_text: e.target.value})}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">Secondary Button Link</label>
+            <input
+              type="text"
+              value={heroSettings.secondary_button_link}
+              onChange={(e) => setHeroSettings({...heroSettings, secondary_button_link: e.target.value})}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="pt-6">
+        <button
+          onClick={async () => {
+            setSaving(true);
+            const { error } = await supabase
+              .from('hero_settings')
+              .update(heroSettings)
+              .eq('id', 'default');
+            if (error) {
+              alert('Error updating hero: ' + error.message);
+            } else {
+              alert('✅ Hero settings updated successfully!');
+            }
+            setSaving(false);
+          }}
+          disabled={saving}
+          className="w-full md:w-auto flex items-center justify-center gap-2 bg-blue-600 text-white px-8 py-4 rounded-lg hover:bg-blue-700 transition font-semibold disabled:opacity-50"
+        >
+          <Save size={20} />
+          {saving ? 'Saving...' : 'Save Hero Settings'}
+        </button>
+      </div>
+
+    </div>
+  </div>
+)}
           </div>
         </div>
       </div>
