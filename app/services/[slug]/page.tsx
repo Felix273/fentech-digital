@@ -7,10 +7,12 @@ import {
   Cloud, 
   ChevronRight,
   Mail,
-  Check
+  Check,
+  RefreshCw
 } from "lucide-react";
 import ServiceHero from "@/components/ServiceHero";
 import { useParams, useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase";
 
 export default function ServicePage() {
   const params = useParams();
@@ -21,34 +23,19 @@ export default function ServicePage() {
 
   useEffect(() => {
     loadServices();
-    
-    // Listen for storage changes (when admin saves)
-    const handleStorageChange = () => {
-      loadServices();
-    };
-    
-    window.addEventListener('storage', handleStorageChange);
-    return () => window.removeEventListener('storage', handleStorageChange);
   }, [params.slug]);
 
   const loadServices = async () => {
     try {
-      // Always check localStorage first
-      const saved = localStorage.getItem('services');
-      let servicesData;
-      
-      if (saved) {
-        servicesData = JSON.parse(saved);
-      } else {
-        const module = await import('@/lib/data/services');
-        servicesData = module.servicesData;
-        // Save default data to localStorage
-        localStorage.setItem('services', JSON.stringify(servicesData));
-      }
+      const { data: servicesData, error } = await supabase
+        .from('services')
+        .select('*');
 
-      setAllServices(servicesData);
+      if (error) throw error;
+
+      setAllServices(servicesData || []);
       
-      const currentService = servicesData.find(s => s.slug === params.slug);
+      const currentService = servicesData?.find(s => s.slug === params.slug);
       
       if (!currentService) {
         router.push('/services');
@@ -67,7 +54,7 @@ export default function ServicePage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#F4F7FA]">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <RefreshCw className="animate-spin mx-auto mb-4 text-blue-600" size={48} />
           <p className="mt-4 text-gray-600">Loading service...</p>
         </div>
       </div>
@@ -80,7 +67,7 @@ export default function ServicePage() {
 
   return (
     <main className="bg-[#F4F7FA] min-h-screen font-sans">
-      <ServiceHero title={service.heroTitle || service.name} />
+      <ServiceHero title={service.hero_title || service.name} />
 
       <div className="w-full flex justify-center py-20">
         <div className="w-[90%] flex flex-col lg:flex-row gap-12">
