@@ -1,4 +1,6 @@
+
 import type { Metadata } from "next";
+import Navbar from "@/components/Navbar";
 import localFont from "next/font/local";
 import "./globals.css";
 
@@ -33,7 +35,8 @@ export default function RootLayout({
     <html lang="en">
       {/* antialiased makes fonts look smoother and more professional */}
       <body className={`${glacialIndifference.variable} font-sans antialiased`}>
-        {children}
+  <Navbar />       
+ {children}
       </body>
     </html>
   );

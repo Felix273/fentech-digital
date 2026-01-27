@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Contact from "@/components/Contact";
 import { motion } from "framer-motion";
 import { 
   Target, 
@@ -178,11 +179,15 @@ export default function AboutUsPage() {
           </div>
         </div>
       </section>
+      {/* ---CONTACT SECTION ---*/}
+      <div className="w-full">
+        <Contact />
+      </div>
 
       {/* FOOTER & COPYRIGHT */}
       <Footer />
       <div className="w-full py-12 flex justify-center border-t border-slate-100 bg-slate-50">
-        <p className="text-slate-400 font-medium text-xs uppercase tracking-[0.5em]">
+        <p className="text-slate-400 font-medium text-xs tracking-[0.5em]">
           © 2026 FenTech Digital. All rights reserved.
         </p>
       </div>

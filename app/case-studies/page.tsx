@@ -1,6 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+
+import Contact from "@/components/Contact";
+
+import Footer from "@/components/Footer";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Star, ArrowRight, Filter, RefreshCw } from "lucide-react";
@@ -59,20 +63,30 @@ export default function CaseStudiesPage() {
   return (
     <main className="bg-[#F4F7FA] min-h-screen">
       {/* HERO SECTION */}
-      <section className="w-full pt-40 pb-20 flex justify-center bg-white border-b border-slate-100">
-        <div className="w-[85%] max-w-7xl text-center">
+      <section className="relative w-full pt-48 pb-32 flex justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900 overflow-hidden">
+        {/* Background Elements */}
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-600/20 blur-[120px] rounded-full pointer-events-none" />
+        <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-blue-500/20 blur-[120px] rounded-full pointer-events-none" />
+        
+        <div className="w-[85%] max-w-7xl text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <span className="text-blue-600 font-bold text-[10px] uppercase tracking-[0.4em] mb-6 block">
-              Our Work
-            </span>
-            <h1 className="text-5xl md:text-7xl font-bold text-slate-900 mb-8 tracking-tight">
-              Case Studies
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <span className="h-[1px] w-12 bg-blue-400"></span>
+              <span className="text-blue-400 font-bold text-xs uppercase tracking-[0.3em]">
+                Our Work
+              </span>
+              <span className="h-[1px] w-12 bg-blue-400"></span>
+            </div>
+            
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-8 tracking-tight">
+              Case <span className="text-blue-400">Studies</span>
             </h1>
-            <p className="text-slate-500 text-xl max-w-3xl mx-auto font-light leading-relaxed">
+            
+            <p className="text-slate-300 text-xl max-w-3xl mx-auto font-light leading-relaxed">
               Real results from real clients. Explore how we've helped businesses transform their digital infrastructure.
             </p>
           </motion.div>
@@ -141,6 +155,8 @@ export default function CaseStudiesPage() {
           </div>
         </div>
       </section>
+      <Contact />
+      <Footer />
     </main>
   );
 }
