@@ -2,11 +2,20 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Check, Phone, ArrowRight, Calendar, Search, FileText } from "lucide-react";
+import { Check, Phone, ArrowRight, Calendar, Search, FileText, Loader2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
 export default function Contact() {
   const [footerData, setFooterData] = useState(null);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    serviceRequired: "Managed Services",
+    message: ""
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error', message: string } | null>(null);
 
   useEffect(() => {
     loadFooterData();
@@ -20,6 +29,48 @@ export default function Contact() {
       .single();
 
     if (data) setFooterData(data);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus({ type: 'success', message: 'Thank you! Your message has been sent successfully. We\'ll get back to you soon.' });
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          serviceRequired: "Managed Services",
+          message: ""
+        });
+      } else {
+        setSubmitStatus({ type: 'error', message: data.error || 'Something went wrong. Please try again.' });
+      }
+    } catch (error) {
+      setSubmitStatus({ type: 'error', message: 'Failed to send message. Please try again.' });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
   };
 
   return (
@@ -105,26 +156,56 @@ export default function Contact() {
           {/* RIGHT COLUMN: THE FORM */}
           <div className="lg:col-span-5">
             <div className="bg-white rounded-3xl p-8 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
-              <form className="space-y-5">
+              <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid grid-cols-2 gap-5">
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold text-slate-400 uppercase ml-1">First Name</label>
-                    <input type="text" className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl focus:border-blue-600 outline-none transition-all" />
+                    <input 
+                      type="text" 
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={handleChange}
+                      required
+                      disabled={isSubmitting}
+                      className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl focus:border-blue-600 outline-none transition-all disabled:opacity-50" 
+                    />
                   </div>
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold text-slate-400 uppercase ml-1">Last Name</label>
-                    <input type="text" className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl focus:border-blue-600 outline-none transition-all" />
+                    <input 
+                      type="text" 
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={handleChange}
+                      required
+                      disabled={isSubmitting}
+                      className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl focus:border-blue-600 outline-none transition-all disabled:opacity-50" 
+                    />
                   </div>
                 </div>
                 
                 <div className="space-y-1">
                   <label className="text-[10px] font-bold text-slate-400 uppercase ml-1">Company Email</label>
-                  <input type="email" className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl focus:border-blue-600 outline-none transition-all" />
+                  <input 
+                    type="email" 
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    disabled={isSubmitting}
+                    className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl focus:border-blue-600 outline-none transition-all disabled:opacity-50" 
+                  />
                 </div>
 
                 <div className="space-y-1">
                   <label className="text-[10px] font-bold text-slate-400 uppercase ml-1">Service Required</label>
-                  <select className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl focus:border-blue-600 outline-none transition-all cursor-pointer">
+                  <select 
+                    name="serviceRequired"
+                    value={formData.serviceRequired}
+                    onChange={handleChange}
+                    disabled={isSubmitting}
+                    className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl focus:border-blue-600 outline-none transition-all cursor-pointer disabled:opacity-50"
+                  >
                     <option>Managed Services</option>
                     <option>IT Consulting & Advisory</option>
                     <option>Cyber Security</option>
@@ -137,15 +218,42 @@ export default function Contact() {
 
                 <div className="space-y-1">
                   <label className="text-[10px] font-bold text-slate-400 uppercase ml-1">Message</label>
-                  <textarea rows={3} className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl focus:border-blue-600 outline-none transition-all resize-none"></textarea>
+                  <textarea 
+                    rows={3} 
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
+                    disabled={isSubmitting}
+                    className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl focus:border-blue-600 outline-none transition-all resize-none disabled:opacity-50"
+                  />
                 </div>
+
+                {submitStatus && (
+                  <div className={`p-4 rounded-xl ${
+                    submitStatus.type === 'success' 
+                      ? 'bg-green-50 text-green-800 border border-green-200' 
+                      : 'bg-red-50 text-red-800 border border-red-200'
+                  }`}>
+                    {submitStatus.message}
+                  </div>
+                )}
                 
                 <motion.button 
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.99 }}
-                  className="w-full bg-blue-600 text-white font-bold py-5 rounded-xl hover:bg-[#0a0c10] transition-all shadow-xl shadow-blue-500/20"
+                  type="submit"
+                  disabled={isSubmitting}
+                  whileHover={{ scale: isSubmitting ? 1 : 1.01 }}
+                  whileTap={{ scale: isSubmitting ? 1 : 0.99 }}
+                  className="w-full bg-blue-600 text-white font-bold py-5 rounded-xl hover:bg-[#0a0c10] transition-all shadow-xl shadow-blue-500/20 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
-                  Submit Request
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="animate-spin" size={20} />
+                      Sending...
+                    </>
+                  ) : (
+                    'Submit Request'
+                  )}
                 </motion.button>
               </form>
             </div>
