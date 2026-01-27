@@ -112,7 +112,7 @@ export default function Solutions() {
                 </p>
 
                 <div className="flex items-center gap-3 text-blue-600 font-bold uppercase tracking-widest text-xs opacity-60 group-hover:opacity-100 transition-all group-hover:gap-5">
-                  <Link href="/services/managed-services">
+                  <Link href="/services">
                     Explore Solution <ArrowRight size={16} />
                   </Link>
                 </div>
@@ -123,10 +123,10 @@ export default function Solutions() {
 
         {/* BUTTON: Solid & Professional */}
         <div className="flex justify-center">
-          <button className="px-12 py-6 bg-[#0a0c10] text-white rounded-lg font-bold text-lg tracking-widest uppercase hover:bg-blue-600 hover:-translate-y-1 transition-all duration-300 shadow-xl flex items-center gap-4 group">
+          <Link href="/services" className="px-12 py-6 bg-[#0a0c10] text-white rounded-lg font-bold text-lg tracking-widest uppercase hover:bg-blue-600 hover:-translate-y-1 transition-all duration-300 shadow-xl flex items-center gap-4 group">
             View All Solutions
             <ArrowRight className="group-hover:translate-x-2 transition-transform" size={20} />
-          </button>
+          </Link>
         </div>
       </div>
     </section>

@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import Contact from "@/components/Contact";
 import { 
   ChevronRight, 
   Cpu, 
@@ -242,69 +243,9 @@ export default function AllServicesPage() {
       </section>
 
       {/* --- CONTACT SECTION --- */}
-      <section className="w-full bg-white flex justify-center py-32">
-        <div className="w-[100%] py-24 px-12 rounded-[3.5rem] bg-gradient-to-br from-[#0f172a] via-[#0a0c10] to-[#020617] relative overflow-hidden shadow-2xl">
-          <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-600/10 blur-[120px] rounded-full pointer-events-none" />
-          <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-blue-500/10 blur-[120px] rounded-full pointer-events-none" />
-
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-16">
-            <div className="lg:col-span-4 space-y-10 text-left">
-              <div>
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="h-[1px] w-8 bg-blue-500"></span>
-                  <span className="text-blue-500 font-bold uppercase tracking-widest text-xs">Contact us</span>
-                </div>
-                <h2 className="text-4xl font-bold text-white leading-tight mb-6 tracking-tight">
-                  Partner with Us for <br /> Comprehensive IT
-                </h2>
-                <p className="text-slate-400 text-lg font-light leading-relaxed">
-                  We’re happy to answer any questions you may have and help you determine which of our services best fit your needs.
-                </p>
-              </div>
-
-              <div className="p-8 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-sm shadow-2xl">
-                <p className="text-blue-500 uppercase tracking-widest text-[10px] font-black mb-2">Call us at:</p>
-                <a href="tel:18003568933" className="text-3xl font-bold text-white hover:text-blue-400 transition-colors tracking-tighter">1-800-356-8933</a>
-              </div>
-            </div>
-
-            <div className="lg:col-span-3 space-y-8 lg:border-l lg:border-white/10 lg:pl-12 text-left">
-              <h4 className="text-white font-bold mb-8 uppercase tracking-wider text-xs opacity-70">What happens next?</h4>
-              <div className="space-y-12 relative">
-                <div className="absolute left-[19px] top-2 bottom-2 w-[1px] bg-white/10 -z-0" />
-                {[
-                  { step: "1", title: "Schedule a call", desc: "At your convenience", icon: <Calendar size={18}/> },
-                  { step: "2", title: "Discovery", desc: "Consulting meeting", icon: <Search size={18}/> },
-                  { step: "3", title: "Proposal", desc: "We prepare a quote", icon: <FileText size={18}/> },
-                ].map((item) => (
-                  <div key={item.step} className="relative z-10 flex gap-6 group">
-                    <div className="w-10 h-10 rounded-full bg-[#0a0c10] border border-white/10 text-blue-500 flex items-center justify-center font-bold group-hover:border-blue-500 group-hover:text-white transition-all shadow-xl">{item.step}</div>
-                    <div>
-                      <h5 className="font-bold text-white group-hover:text-blue-400 transition-colors">{item.title}</h5>
-                      <p className="text-sm text-slate-500 font-light">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="lg:col-span-5">
-              <div className="bg-white rounded-3xl p-8 md:p-10 shadow-2xl">
-                <form className="space-y-5 text-left">
-                  <div className="grid grid-cols-2 gap-5">
-                    <input type="text" placeholder="First Name" className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl focus:border-blue-600 outline-none transition-all" />
-                    <input type="text" placeholder="Last Name" className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl focus:border-blue-600 outline-none transition-all" />
-                  </div>
-                  <input type="email" placeholder="Email" className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl focus:border-blue-600 outline-none transition-all" />
-                  <textarea rows={3} placeholder="Message" className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl focus:border-blue-600 outline-none transition-all resize-none"></textarea>
-                  <motion.button whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.99 }} className="w-full bg-blue-600 text-white font-bold py-5 rounded-xl shadow-xl shadow-blue-500/20">Submit Request</motion.button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
+      <div className="w-full">
+        <Contact />
+      </div>
       <Footer />
       <div className="w-full py-12 flex justify-center border-t border-slate-100 bg-slate-50">
         <p className="text-slate-400 font-medium text-xs uppercase tracking-[0.5em]">© 2026 FenTech Digital. All rights reserved.</p>

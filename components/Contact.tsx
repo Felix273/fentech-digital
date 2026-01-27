@@ -1,11 +1,28 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Check, Phone, ArrowRight, Calendar, Search, FileText } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 export default function Contact() {
+  const [footerData, setFooterData] = useState(null);
+
+  useEffect(() => {
+    loadFooterData();
+  }, []);
+
+  const loadFooterData = async () => {
+    const { data } = await supabase
+      .from('footer_settings')
+      .select('*')
+      .eq('id', 'default')
+      .single();
+
+    if (data) setFooterData(data);
+  };
+
   return (
-    // Applying a complex gradient background: Deep slate to rich black with a blue tint
     <section className="py-24 px-6 bg-gradient-to-br from-[#0f172a] via-[#0a0c10] to-[#020617] relative overflow-hidden">
       
       {/* Dynamic Glow Accents */}
@@ -26,15 +43,15 @@ export default function Contact() {
                 Partner with Us for <br /> Comprehensive IT
               </h2>
               <p className="text-slate-400 text-lg font-light leading-relaxed">
-                We’re happy to answer any questions you may have and help you determine 
+                We're happy to answer any questions you may have and help you determine 
                 which of our services best fit your needs.
               </p>
             </div>
 
             <div className="p-8 bg-white/5 border border-white/10 rounded-2xl backdrop-blur-sm shadow-2xl">
               <p className="text-blue-500 uppercase tracking-widest text-[10px] font-black mb-2">Call us at:</p>
-              <a href="tel:18003568933" className="text-3xl font-bold text-white hover:text-blue-400 transition-colors tracking-tighter">
-                1-800-356-8933
+              <a href={`tel:${footerData?.phone?.replace(/[^0-9]/g, '')}`} className="text-3xl font-bold text-white hover:text-blue-400 transition-colors tracking-tighter">
+                {footerData?.phone || "1-800-356-8933"}
               </a>
             </div>
 
