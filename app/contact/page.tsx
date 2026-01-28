@@ -4,7 +4,9 @@ import React, { useState, useEffect } from "react";
 import { 
   Star, 
   ChevronDown,
-  RefreshCw
+  RefreshCw,
+  Loader2,
+  AlertCircle
 } from "lucide-react";
 import Link from "next/link";
 import { supabase } from "@/lib/supabase";
@@ -14,6 +16,19 @@ export default function ContactPage() {
   const [contactData, setContactData] = useState(null);
   const [footerData, setFooterData] = useState(null);
   const [loading, setLoading] = useState(true);
+  
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    company: "",
+    email: "",
+    phone: "",
+    priority: "Normal",
+    message: ""
+  });
+  const [errors, setErrors] = useState<{[key: string]: string}>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error', message: string } | null>(null);
 
   useEffect(() => {
     loadData();
@@ -28,6 +43,118 @@ export default function ContactPage() {
     if (contactRes.data) setContactData(contactRes.data);
     if (footerRes.data) setFooterData(footerRes.data);
     setLoading(false);
+  };
+
+  const validateForm = () => {
+    const newErrors: {[key: string]: string} = {};
+
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = "First name is required";
+    } else if (formData.firstName.trim().length < 2) {
+      newErrors.firstName = "Must be at least 2 characters";
+    }
+
+    if (!formData.lastName.trim()) {
+      newErrors.lastName = "Last name is required";
+    } else if (formData.lastName.trim().length < 2) {
+      newErrors.lastName = "Must be at least 2 characters";
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(formData.email)) {
+        newErrors.email = "Please enter a valid email";
+      }
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = "Description is required";
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = "Must be at least 10 characters";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitStatus(null);
+
+    if (!validateForm()) {
+      setSubmitStatus({ 
+        type: 'error', 
+        message: 'Please fix the errors below' 
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          company: formData.company,
+          phone: formData.phone,
+          serviceRequired: `Support Request - ${formData.priority} Priority`,
+          message: formData.message
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus({ 
+          type: 'success', 
+          message: 'Thank you! Your support request has been submitted. We\'ll respond within 24 hours.' 
+        });
+        setFormData({
+          firstName: "",
+          lastName: "",
+          company: "",
+          email: "",
+          phone: "",
+          priority: "Normal",
+          message: ""
+        });
+        setErrors({});
+      } else {
+        setSubmitStatus({ 
+          type: 'error', 
+          message: data.error || 'Something went wrong. Please try again.' 
+        });
+      }
+    } catch (error) {
+      setSubmitStatus({ 
+        type: 'error', 
+        message: 'Failed to send request. Please try again.' 
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+    if (errors[name]) {
+      setErrors({
+        ...errors,
+        [name]: ""
+      });
+    }
   };
 
   if (loading) {
@@ -76,37 +203,120 @@ export default function ContactPage() {
           {/* LEFT: FORM CARD */}
           <div className="w-full lg:w-[65%] bg-white p-10 shadow-sm relative z-10">
             <h3 className="text-xl font-bold text-slate-900 mb-10">Submit a Support Request</h3>
-            <form className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input placeholder="First Name" className="w-full p-4 bg-white border border-slate-200 rounded-sm text-sm outline-none" />
-                <input placeholder="Last Name" className="w-full p-4 bg-white border border-slate-200 rounded-sm text-sm outline-none" />
+                <div>
+                  <input 
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    placeholder="First Name *" 
+                    disabled={isSubmitting}
+                    className={`w-full p-4 bg-white border ${errors.firstName ? 'border-red-500' : 'border-slate-200'} rounded-sm text-sm outline-none disabled:opacity-50`}
+                  />
+                  {errors.firstName && <p className="text-red-500 text-xs mt-1 ml-1">{errors.firstName}</p>}
+                </div>
+                <div>
+                  <input 
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    placeholder="Last Name *" 
+                    disabled={isSubmitting}
+                    className={`w-full p-4 bg-white border ${errors.lastName ? 'border-red-500' : 'border-slate-200'} rounded-sm text-sm outline-none disabled:opacity-50`}
+                  />
+                  {errors.lastName && <p className="text-red-500 text-xs mt-1 ml-1">{errors.lastName}</p>}
+                </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input placeholder="Company" className="w-full p-4 bg-white border border-slate-200 rounded-sm text-sm outline-none" />
-                <input placeholder="Email" className="w-full p-4 bg-white border border-slate-200 rounded-sm text-sm outline-none" />
+                <input 
+                  name="company"
+                  value={formData.company}
+                  onChange={handleChange}
+                  placeholder="Company" 
+                  disabled={isSubmitting}
+                  className="w-full p-4 bg-white border border-slate-200 rounded-sm text-sm outline-none disabled:opacity-50"
+                />
+                <div>
+                  <input 
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="Email *" 
+                    disabled={isSubmitting}
+                    className={`w-full p-4 bg-white border ${errors.email ? 'border-red-500' : 'border-slate-200'} rounded-sm text-sm outline-none disabled:opacity-50`}
+                  />
+                  {errors.email && <p className="text-red-500 text-xs mt-1 ml-1">{errors.email}</p>}
+                </div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input placeholder="Phone" className="w-full p-4 bg-white border border-slate-200 rounded-sm text-sm outline-none" />
+                <input 
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  placeholder="Phone" 
+                  disabled={isSubmitting}
+                  className="w-full p-4 bg-white border border-slate-200 rounded-sm text-sm outline-none disabled:opacity-50"
+                />
                 <div className="relative">
-                  <select className="w-full p-4 bg-white border border-slate-200 rounded-sm text-sm outline-none appearance-none text-slate-400 pr-10">
-                    <option>Priority</option>
+                  <select 
+                    name="priority"
+                    value={formData.priority}
+                    onChange={handleChange}
+                    disabled={isSubmitting}
+                    className="w-full p-4 bg-white border border-slate-200 rounded-sm text-sm outline-none appearance-none text-slate-900 pr-10 disabled:opacity-50"
+                  >
                     <option>Normal</option>
                     <option>Urgent</option>
                   </select>
                   <ChevronDown size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
                 </div>
               </div>
-              <textarea placeholder="Description" rows={5} className="w-full p-4 bg-white border border-slate-200 rounded-sm text-sm outline-none resize-none" />
+              <div>
+                <textarea 
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="Description *" 
+                  rows={5} 
+                  disabled={isSubmitting}
+                  className={`w-full p-4 bg-white border ${errors.message ? 'border-red-500' : 'border-slate-200'} rounded-sm text-sm outline-none resize-none disabled:opacity-50`}
+                />
+                {errors.message && <p className="text-red-500 text-xs mt-1 ml-1">{errors.message}</p>}
+              </div>
               
               <div className="flex items-center gap-3 py-4">
-                <input type="checkbox" className="w-4 h-4 border-slate-300 rounded-sm" />
+                <input type="checkbox" required className="w-4 h-4 border-slate-300 rounded-sm" />
                 <span className="text-[11px] text-slate-500 font-medium leading-tight">
                   I am informed about processing of my personal data and the right to withdraw my consent*
                 </span>
               </div>
+
+              {submitStatus && (
+                <div className={`p-4 rounded-sm flex items-start gap-2 ${
+                  submitStatus.type === 'success' 
+                    ? 'bg-green-50 text-green-800 border border-green-200' 
+                    : 'bg-red-50 text-red-800 border border-red-200'
+                }`}>
+                  <AlertCircle size={16} className="flex-shrink-0 mt-0.5" />
+                  <span className="text-sm">{submitStatus.message}</span>
+                </div>
+              )}
               
-              <button className="bg-[#4100D1] text-white px-10 py-4 rounded-sm font-bold text-xs uppercase tracking-widest hover:bg-slate-900 transition-colors">
-                Submit
+              <button 
+                type="submit"
+                disabled={isSubmitting}
+                className="bg-[#4100D1] text-white px-10 py-4 rounded-sm font-bold text-xs uppercase tracking-widest hover:bg-slate-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="animate-spin" size={16} />
+                    Submitting...
+                  </>
+                ) : (
+                  'Submit'
+                )}
               </button>
             </form>
           </div>
