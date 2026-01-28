@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Check, Phone, ArrowRight, Calendar, Search, FileText, Loader2 } from "lucide-react";
+import { Check, Phone, ArrowRight, Calendar, Search, FileText, Loader2, AlertCircle } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
 export default function Contact() {
@@ -14,6 +14,7 @@ export default function Contact() {
     serviceRequired: "Managed Services",
     message: ""
   });
+  const [errors, setErrors] = useState<{[key: string]: string}>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{ type: 'success' | 'error', message: string } | null>(null);
 
@@ -31,10 +32,60 @@ export default function Contact() {
     if (data) setFooterData(data);
   };
 
+  const validateForm = () => {
+    const newErrors: {[key: string]: string} = {};
+
+    // First Name validation
+    if (!formData.firstName.trim()) {
+      newErrors.firstName = "First name is required";
+    } else if (formData.firstName.trim().length < 2) {
+      newErrors.firstName = "First name must be at least 2 characters";
+    }
+
+    // Last Name validation
+    if (!formData.lastName.trim()) {
+      newErrors.lastName = "Last name is required";
+    } else if (formData.lastName.trim().length < 2) {
+      newErrors.lastName = "Last name must be at least 2 characters";
+    }
+
+    // Email validation
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(formData.email)) {
+        newErrors.email = "Please enter a valid email address (e.g., name@example.com)";
+      }
+    }
+
+    // Message validation
+    if (!formData.message.trim()) {
+      newErrors.message = "Message is required";
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = "Message must be at least 10 characters";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    
+    // Clear previous status
     setSubmitStatus(null);
+
+    // Validate form
+    if (!validateForm()) {
+      setSubmitStatus({ 
+        type: 'error', 
+        message: 'Please fix the errors below before submitting' 
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
 
     try {
       const response = await fetch('/api/contact', {
@@ -48,7 +99,10 @@ export default function Contact() {
       const data = await response.json();
 
       if (response.ok) {
-        setSubmitStatus({ type: 'success', message: 'Thank you! Your message has been sent successfully. We\'ll get back to you soon.' });
+        setSubmitStatus({ 
+          type: 'success', 
+          message: 'Thank you! Your message has been sent successfully. We\'ll get back to you soon.' 
+        });
         setFormData({
           firstName: "",
           lastName: "",
@@ -56,21 +110,36 @@ export default function Contact() {
           serviceRequired: "Managed Services",
           message: ""
         });
+        setErrors({});
       } else {
-        setSubmitStatus({ type: 'error', message: data.error || 'Something went wrong. Please try again.' });
+        setSubmitStatus({ 
+          type: 'error', 
+          message: data.error || 'Something went wrong. Please try again.' 
+        });
       }
     } catch (error) {
-      setSubmitStatus({ type: 'error', message: 'Failed to send message. Please try again.' });
+      setSubmitStatus({ 
+        type: 'error', 
+        message: 'Failed to send message. Please check your connection and try again.' 
+      });
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     });
+    // Clear error for this field when user starts typing
+    if (errors[name]) {
+      setErrors({
+        ...errors,
+        [name]: ""
+      });
+    }
   };
 
   return (
@@ -159,42 +228,60 @@ export default function Contact() {
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid grid-cols-2 gap-5">
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase ml-1">First Name</label>
+                    <label className="text-[10px] font-bold text-slate-400 uppercase ml-1">First Name *</label>
                     <input 
                       type="text" 
                       name="firstName"
                       value={formData.firstName}
                       onChange={handleChange}
-                      required
                       disabled={isSubmitting}
-                      className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl focus:border-blue-600 outline-none transition-all disabled:opacity-50" 
+                      className={`w-full bg-slate-50 border ${errors.firstName ? 'border-red-500 focus:border-red-500' : 'border-slate-200 focus:border-blue-600'} p-4 rounded-xl outline-none transition-all disabled:opacity-50`}
+                      placeholder="John"
                     />
+                    {errors.firstName && (
+                      <div className="flex items-center gap-1 text-red-500 text-xs ml-1 mt-1">
+                        <AlertCircle size={12} />
+                        <span>{errors.firstName}</span>
+                      </div>
+                    )}
                   </div>
                   <div className="space-y-1">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase ml-1">Last Name</label>
+                    <label className="text-[10px] font-bold text-slate-400 uppercase ml-1">Last Name *</label>
                     <input 
                       type="text" 
                       name="lastName"
                       value={formData.lastName}
                       onChange={handleChange}
-                      required
                       disabled={isSubmitting}
-                      className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl focus:border-blue-600 outline-none transition-all disabled:opacity-50" 
+                      className={`w-full bg-slate-50 border ${errors.lastName ? 'border-red-500 focus:border-red-500' : 'border-slate-200 focus:border-blue-600'} p-4 rounded-xl outline-none transition-all disabled:opacity-50`}
+                      placeholder="Doe"
                     />
+                    {errors.lastName && (
+                      <div className="flex items-center gap-1 text-red-500 text-xs ml-1 mt-1">
+                        <AlertCircle size={12} />
+                        <span>{errors.lastName}</span>
+                      </div>
+                    )}
                   </div>
                 </div>
                 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase ml-1">Company Email</label>
+                  <label className="text-[10px] font-bold text-slate-400 uppercase ml-1">Company Email *</label>
                   <input 
                     type="email" 
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    required
                     disabled={isSubmitting}
-                    className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl focus:border-blue-600 outline-none transition-all disabled:opacity-50" 
+                    className={`w-full bg-slate-50 border ${errors.email ? 'border-red-500 focus:border-red-500' : 'border-slate-200 focus:border-blue-600'} p-4 rounded-xl outline-none transition-all disabled:opacity-50`}
+                    placeholder="john@company.com"
                   />
+                  {errors.email && (
+                    <div className="flex items-center gap-1 text-red-500 text-xs ml-1 mt-1">
+                      <AlertCircle size={12} />
+                      <span>{errors.email}</span>
+                    </div>
+                  )}
                 </div>
 
                 <div className="space-y-1">
@@ -217,26 +304,37 @@ export default function Contact() {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase ml-1">Message</label>
+                  <label className="text-[10px] font-bold text-slate-400 uppercase ml-1">Message *</label>
                   <textarea 
                     rows={3} 
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    required
                     disabled={isSubmitting}
-                    className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl focus:border-blue-600 outline-none transition-all resize-none disabled:opacity-50"
+                    className={`w-full bg-slate-50 border ${errors.message ? 'border-red-500 focus:border-red-500' : 'border-slate-200 focus:border-blue-600'} p-4 rounded-xl outline-none transition-all resize-none disabled:opacity-50`}
+                    placeholder="Tell us about your project..."
                   />
+                  {errors.message && (
+                    <div className="flex items-center gap-1 text-red-500 text-xs ml-1 mt-1">
+                      <AlertCircle size={12} />
+                      <span>{errors.message}</span>
+                    </div>
+                  )}
                 </div>
 
                 {submitStatus && (
-                  <div className={`p-4 rounded-xl ${
-                    submitStatus.type === 'success' 
-                      ? 'bg-green-50 text-green-800 border border-green-200' 
-                      : 'bg-red-50 text-red-800 border border-red-200'
-                  }`}>
-                    {submitStatus.message}
-                  </div>
+                  <motion.div 
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className={`p-4 rounded-xl flex items-start gap-3 ${
+                      submitStatus.type === 'success' 
+                        ? 'bg-green-50 text-green-800 border border-green-200' 
+                        : 'bg-red-50 text-red-800 border border-red-200'
+                    }`}
+                  >
+                    <AlertCircle size={20} className="flex-shrink-0 mt-0.5" />
+                    <span className="text-sm">{submitStatus.message}</span>
+                  </motion.div>
                 )}
                 
                 <motion.button 
