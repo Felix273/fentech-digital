@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
+import FloatingCTA from "@/components/FloatingCTA";
 import localFont from "next/font/local";
 import "./globals.css";
 import { siteConfig } from "@/lib/seo/metadata";
@@ -88,6 +89,7 @@ export default function RootLayout({
       <body className={`${glacialIndifference.variable} font-sans antialiased`}>
         <Navbar />       
         {children}
+        <FloatingCTA />
       </body>
     </html>
   );
