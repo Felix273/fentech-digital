@@ -47,7 +47,7 @@ export async function POST(request: Request) {
     try {
       await resend.emails.send({
         from: 'Fentech Contact Form <onboarding@resend.dev>', // Resend verified sender
-        to: 'eregaefelix8@gmail.com', // Your email - change this to your actual email
+        to: 'fentechgroup@gmail.com', // Your email - change this to your actual email
         replyTo: email,
         subject: `New Contact Form Submission - ${serviceRequired || 'General Inquiry'}`,
         html: `
