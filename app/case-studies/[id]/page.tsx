@@ -32,7 +32,7 @@ export default function SingleCaseStudyPage({ params }: { params: Promise<{ id: 
         localStorage.setItem('caseStudies', JSON.stringify(caseStudiesData));
       }
 
-      const currentProject = caseStudiesData.find((p) => p.id === id);
+      const currentProject = caseStudiesData.find((p: any) => p.id === id);
       
       if (!currentProject) {
         router.push('/case-studies');
