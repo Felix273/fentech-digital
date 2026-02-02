@@ -98,7 +98,7 @@ export default function SingleCaseStudyPage({ params }: { params: Promise<{ id: 
       {/* 2. STATS SECTION */}
       <section className="w-full flex justify-center py-24">
         <div className="w-[85%] max-w-7xl grid grid-cols-2 lg:grid-cols-4 gap-8">
-          {project.stats.map((stat, i) => (
+          {project.stats.map((stat: any, i: number) => (
             <div key={i} className="border-t-2 border-blue-600 pt-6 group">
               <p className="text-4xl font-black text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">{stat.val}</p>
               <p className="text-xs text-slate-400 font-bold uppercase tracking-widest leading-snug">{stat.label}</p>
