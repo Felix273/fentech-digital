@@ -11,8 +11,8 @@ export default function SingleCaseStudyPage({ params }: { params: Promise<{ id: 
   const id = resolvedParams.id;
   const router = useRouter();
 
-  const [project, setProject] = useState(null);
-  const [relatedProjects, setRelatedProjects] = useState([]);
+  const [project, setProject] = useState<any>(null);
+  const [relatedProjects, setRelatedProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
