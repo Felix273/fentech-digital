@@ -45,7 +45,7 @@ export default function CaseStudiesPage() {
     if (category === "All") {
       setFilteredStudies(caseStudies);
     } else {
-      setFilteredStudies(caseStudies.filter(c => c.category === category));
+      setFilteredStudies(caseStudies.filter((c: any) => c.category === category));
     }
   };
 
