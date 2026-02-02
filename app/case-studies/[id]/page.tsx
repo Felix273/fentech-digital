@@ -148,7 +148,7 @@ export default function SingleCaseStudyPage({ params }: { params: Promise<{ id: 
             <div>
                 <h3 className="text-3xl font-bold text-slate-900 mb-10">Tangible Results</h3>
                 <div className="grid grid-cols-1 gap-6">
-                    {project.results.map((res, i) => (
+                    {project.results.map((res: any, i: number) => (
                         <div key={i} className="flex items-center gap-4 p-6 bg-slate-50 rounded-2xl border border-slate-100">
                             <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center shrink-0">
                                 <Check size={16} className="text-white" />
