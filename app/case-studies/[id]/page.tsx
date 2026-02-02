@@ -131,7 +131,7 @@ export default function SingleCaseStudyPage({ params }: { params: Promise<{ id: 
           <div className="bg-slate-50 p-12 rounded-[2.5rem] border border-slate-100">
             <h3 className="text-3xl font-bold text-slate-900 mb-10">{project.solutionTitle}</h3>
             <div className="space-y-10">
-              {project.solutionDetails.map((item, i) => (
+              {project.solutionDetails.map((item: any, i: number) => (
                 <div key={i} className="relative pl-8 border-l-2 border-blue-600/20 hover:border-blue-600 transition-colors">
                   <p className="font-bold text-slate-900 text-lg mb-3">{item.title}</p>
                   <p className="text-slate-500 text-sm leading-relaxed">{item.desc}</p>
