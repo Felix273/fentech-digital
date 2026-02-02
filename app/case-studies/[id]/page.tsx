@@ -162,7 +162,7 @@ export default function SingleCaseStudyPage({ params }: { params: Promise<{ id: 
             <div>
                 <h3 className="text-3xl font-bold text-slate-900 mb-10">Technology Stack</h3>
                 <div className="flex flex-wrap gap-3 mb-16">
-                    {project.techStack.map((tech) => (
+                    {project.techStack.map((tech: any) => (
                         <span key={tech} className="px-10 py-3 bg-white border border-slate-500 rounded-xl text-slate-700 font-bold text-xs uppercase tracking-widest shadow-sm">
                             {tech}
                         </span>
