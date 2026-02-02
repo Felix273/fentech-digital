@@ -62,10 +62,7 @@ export default function AboutUsPage() {
     <main className="bg-[#F4F7FA] min-h-screen flex flex-col items-center overflow-x-hidden text-slate-900">
       {/* 1. HERO SECTION */}
       <div className="w-full">
-        <ServiceHero 
-          title="About Fentech" 
-          subtitle={aboutData?.hero_subtitle || ""} 
-        />
+        <ServiceHero title="About Fentech" />
       </div>
 
       {/* 2. OUR STORY */}
