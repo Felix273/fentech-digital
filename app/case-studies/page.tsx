@@ -40,8 +40,8 @@ export default function CaseStudiesPage() {
 
   const categories = ["All", ...new Set(caseStudies.map((c: any) => c.category))];
 
-  const filterProjects = (category) => {
-    setActiveFilter(category: string);
+  const filterProjects = (category: string) => {
+    setActiveFilter(category);
     if (category === "All") {
       setFilteredStudies(caseStudies);
     } else {
