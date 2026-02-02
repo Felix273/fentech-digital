@@ -40,7 +40,7 @@ export default function SingleCaseStudyPage({ params }: { params: Promise<{ id: 
       }
 
       setProject(currentProject);
-      setRelatedProjects(caseStudiesData.filter((item) => item.id !== id).slice(0, 3));
+      setRelatedProjects(caseStudiesData.filter((item: any) => item.id !== id).slice(0, 3));
       setLoading(false);
     } catch (error) {
       console.error('Error loading case study:', error);
