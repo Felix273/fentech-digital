@@ -11,7 +11,7 @@ import { Star, ArrowRight, Filter, RefreshCw } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
 export default function CaseStudiesPage() {
-  const [caseStudies, setCaseStudies] = useState([]);
+  const [caseStudies, setCaseStudies] = useState<any>([]);
   const [filteredStudies, setFilteredStudies] = useState([]);
   const [activeFilter, setActiveFilter] = useState("All");
   const [loading, setLoading] = useState(true);
@@ -38,10 +38,10 @@ export default function CaseStudiesPage() {
     }
   };
 
-  const categories = ["All", ...new Set(caseStudies.map(c => c.category))];
+  const categories = ["All", ...new Set(caseStudies.map((c: any) => c.category))];
 
   const filterProjects = (category) => {
-    setActiveFilter(category);
+    setActiveFilter(category: string);
     if (category === "All") {
       setFilteredStudies(caseStudies);
     } else {
