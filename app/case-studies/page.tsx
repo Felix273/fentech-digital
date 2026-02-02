@@ -98,7 +98,7 @@ export default function CaseStudiesPage() {
         <div className="w-[85%] max-w-7xl">
           <div className="flex flex-wrap items-center gap-3">
             <Filter size={18} className="text-slate-400" />
-            {categories.map((cat) => (
+            {categories.map((cat: any) => (
               <button
                 key={cat}
                 onClick={() => filterProjects(cat)}
