@@ -31,7 +31,7 @@ const iconMap = {
 };
 
 export default function AboutUsPage() {
-  const [aboutData, setAboutData] = useState(null);
+  const [aboutData, setAboutData] = useState<any>(null);
   const [values, setValues] = useState([]);
   const [loading, setLoading] = useState(true);
 
