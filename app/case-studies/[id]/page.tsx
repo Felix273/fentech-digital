@@ -119,7 +119,7 @@ export default function SingleCaseStudyPage({ params }: { params: Promise<{ id: 
             <h3 className="text-3xl font-bold text-slate-900 mb-8">The Challenge</h3>
             <p className="text-slate-600 mb-8 leading-relaxed">{project.challenge}</p>
             <ul className="space-y-4">
-              {project.challengeDetails.map((detail, i) => (
+              {project.challengeDetails.map((detail: any, i: number) => (
                 <li key={i} className="flex gap-4 items-start text-slate-600">
                   <span className="text-blue-600 font-bold">✔︎</span> 
                   <span className="text-sm font-medium">{detail}</span>
