@@ -1,15 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
 
-// Use empty strings as fallback during build time
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const supabaseUrl = 'https://udxooyigxptdfqdwqmdz.supabase.co';
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVkeG9veWlneHB0ZGZxZHdxbWR6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkxNDczNjYsImV4cCI6MjA4NDcyMzM2Nn0.OH_H9qabumopQDnXw160fiTVFI-g0p3IcrmLDk_UaBg';
 
-// Only create client if we have valid credentials
-export const supabase = supabaseUrl && supabaseAnonKey 
-  ? createClient(supabaseUrl, supabaseAnonKey, {
-      auth: {
-        persistSession: false,
-        autoRefreshToken: false,
-      }
-    })
-  : null as any; // Type assertion for build time
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    persistSession: false,
+    autoRefreshToken: false,
+  }
+});
