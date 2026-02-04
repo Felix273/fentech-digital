@@ -4,6 +4,7 @@ import FloatingCTA from "@/components/FloatingCTA";
 import localFont from "next/font/local";
 import "./globals.css";
 import { siteConfig } from "@/lib/seo/metadata";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 // Path is now relative to this file (app/layout.tsx)
 const glacialIndifference = localFont({
@@ -87,6 +88,15 @@ export default function RootLayout({
     <html lang="en">
       {/* antialiased makes fonts look smoother and more professional */}
       <body className={`${glacialIndifference.variable} font-sans antialiased`}>
+        <body className={`${glacialIndifference.variable} font-sans antialiased`}>
+  {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+    <GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+  )}
+  <Navbar />       
+  {children}
+  <FloatingCTA />
+</body>
+
         <Navbar />       
         {children}
         <FloatingCTA />
