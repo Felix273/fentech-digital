@@ -1,5 +1,4 @@
-"use client";==
-
+"use client";
 import { Star } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -14,8 +13,6 @@ export default function StatsBar() {
   return (
     <section className="bg-white py-12 px-6">
       <div className="max-w-7xl mx-auto">
-        
-        {/* TOP SECTION: Reviews & Star Rating */}
         <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-12">
           <span className="text-slate-900 font-bold text-lg italic">Reviewed on</span>
           <div className="flex gap-1">
@@ -28,13 +25,11 @@ export default function StatsBar() {
           <span className="text-slate-500 font-medium">31 Reviews</span>
         </div>
 
-        {/* DIVIDER */}
         <hr className="border-slate-100 mb-16" />
 
-        {/* STATS GRID */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
           {stats.map((stat, index) => (
-            <motion.div 
+            <motion.div
               key={index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
