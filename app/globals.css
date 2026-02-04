@@ -1,8 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  /* This maps your Glacial variable to the default sans-serif font */
-  --font-sans: var(--font-glacial);
+  --font-family-sans: var(--font-glacial), ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
@@ -13,4 +12,5 @@
 body {
   background: var(--background);
   color: var(--foreground);
+  font-family: var(--font-glacial), ui-sans-serif, system-ui, sans-serif;
 }
