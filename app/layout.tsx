@@ -6,7 +6,6 @@ import "./globals.css";
 import { siteConfig } from "@/lib/seo/metadata";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 
-// Path is now relative to this file (app/layout.tsx)
 const glacialIndifference = localFont({
   src: [
     {
@@ -73,9 +72,7 @@ export const metadata: Metadata = {
   },
   
   verification: {
-    // Add these when you set up Google Search Console and Bing
-    // google: 'your-google-verification-code',
-    // bing: 'your-bing-verification-code',
+    google: 'google18e528aeaeb32963',
   },
 };
 
@@ -86,17 +83,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      {/* antialiased makes fonts look smoother and more professional */}
       <body className={`${glacialIndifference.variable} font-sans antialiased`}>
-        <body className={`${glacialIndifference.variable} font-sans antialiased`}>
-  {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
-    <GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
-  )}
-  <Navbar />       
-  {children}
-  <FloatingCTA />
-</body>
-
+        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+          <GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+        )}
         <Navbar />       
         {children}
         <FloatingCTA />
