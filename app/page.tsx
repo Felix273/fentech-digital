@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import StatsBar from "@/components/StatsBar";
 import FeatureBox from "@/components/FeatureBox";
@@ -20,7 +19,6 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <main className="min-h-screen bg-white">
-      <Navbar />
       <Hero />
       <StatsBar />
       <FeatureBox />
