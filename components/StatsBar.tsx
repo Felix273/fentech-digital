@@ -1,13 +1,13 @@
-"use client";
+"use client";==
 
 import { Star } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function StatsBar() {
   const stats = [
-    { label: "Years", value: "20", sub: "Proven Track Record" },
+    { label: "Years", value: "5", sub: "Proven Track Record" },
     { label: "%", value: "98", sub: "Customer Satisfaction" },
-    { label: "", value: "1,500", sub: "Projects We Have Completed" },
+    { label: "", value: "50", sub: "Projects We Have Completed" },
     { label: "Mins", value: "3", sub: "Average Answer Time" },
   ];
 
