@@ -17,9 +17,9 @@ import { supabase } from "@/lib/supabase";
 export default function Footer() {
   const [footerData, setFooterData] = useState({
     company_description: "Engineering the next generation of digital infrastructure with precision and transparency.",
-    phone: "+1 (800) 356-8933",
-    email: "hello@fentech.digital",
-    address: "London, UK EC1",
+    phone: "+254 (114) 295 869",
+    email: "fentechdigital@gmail.com",
+    address: "Nairobi, Kenya",
     facebook_url: "#",
     twitter_url: "#",
     linkedin_url: "#",
