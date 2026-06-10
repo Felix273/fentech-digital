@@ -19,7 +19,7 @@ declare global {
   }
 }
 
-const widgetUrl = process.env.NEXT_PUBLIC_AFRIADS_WIDGET_URL || 'https://ads.afriads.co.ke/ad-widget.js';
+const widgetUrl = process.env.NEXT_PUBLIC_AFRIADS_WIDGET_URL;
 
 export default function AfriAdsSlot({
   zoneId,
@@ -35,6 +35,8 @@ export default function AfriAdsSlot({
   );
 
   useEffect(() => {
+    if (!widgetUrl) return;
+
     const loadWidget = () => {
       if (window.AfriAds) return Promise.resolve();
       if (window.__afriAdsWidgetLoading) return window.__afriAdsWidgetLoading;
@@ -78,7 +80,9 @@ export default function AfriAdsSlot({
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(15,23,42,0.08),transparent_32%)]" />
           <div className="relative text-center">
             <p className="text-sm font-semibold text-slate-500">Advertisement</p>
-            <p className="mt-1 text-xs text-slate-400">Loading verified placement...</p>
+            <p className="mt-1 text-xs text-slate-400">
+              {widgetUrl ? 'Loading verified placement...' : 'Placement ready for live campaigns'}
+            </p>
           </div>
         </div>
       </div>
