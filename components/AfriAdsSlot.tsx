@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useMemo } from 'react';
+import { useEffect, useId, useMemo, useState } from 'react';
 
 type AfriAdsSlotProps = {
   zoneId: number;
@@ -28,6 +28,7 @@ export default function AfriAdsSlot({
   format = 'leaderboard',
   className = '',
 }: AfriAdsSlotProps) {
+  const [isPopulated, setIsPopulated] = useState(false);
   const reactId = useId();
   const containerId = useMemo(
     () => `afriads-zone-${zoneId}-${reactId.replace(/[^a-zA-Z0-9_-]/g, '')}`,
@@ -35,7 +36,22 @@ export default function AfriAdsSlot({
   );
 
   useEffect(() => {
-    if (!widgetUrl) return;
+    setIsPopulated(false);
+
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const syncVisibility = () => {
+      setIsPopulated(Boolean(container.querySelector('.afriads-ad')));
+    };
+
+    const observer = new MutationObserver(syncVisibility);
+    observer.observe(container, { childList: true, subtree: true });
+    syncVisibility();
+
+    if (!widgetUrl) {
+      return () => observer.disconnect();
+    }
 
     const loadWidget = () => {
       if (window.AfriAds) return Promise.resolve();
@@ -60,10 +76,15 @@ export default function AfriAdsSlot({
       .catch((error) => {
         console.error(error);
       });
+
+    return () => observer.disconnect();
   }, [containerId, websiteId, zoneId]);
 
   return (
-    <section className={`w-full px-4 py-10 sm:px-6 ${className}`} aria-label="Advertisement">
+    <section
+      className={isPopulated ? `w-full px-4 py-10 sm:px-6 ${className}` : 'hidden'}
+      aria-label="Advertisement"
+    >
       <div className="mx-auto w-full max-w-7xl">
         <div className="mb-2 flex items-center justify-between">
           <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-400">
@@ -76,15 +97,7 @@ export default function AfriAdsSlot({
         <div
           id={containerId}
           className={`group relative flex w-full items-center justify-center overflow-hidden rounded-2xl border border-slate-200 bg-slate-50 text-slate-400 shadow-sm transition hover:border-slate-300 ${slotSize[format]}`}
-        >
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(15,23,42,0.08),transparent_32%)]" />
-          <div className="relative text-center">
-            <p className="text-sm font-semibold text-slate-500">Advertisement</p>
-            <p className="mt-1 text-xs text-slate-400">
-              {widgetUrl ? 'Loading verified placement...' : 'Placement ready for live campaigns'}
-            </p>
-          </div>
-        </div>
+        />
       </div>
     </section>
   );
