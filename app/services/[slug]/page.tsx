@@ -1,157 +1,137 @@
-"use client";
-
-import React, { useState, useEffect } from "react";
+import type { Metadata } from "next";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { 
-  Cloud, 
-  ChevronRight,
-  Mail,
-  Check,
-  RefreshCw
-} from "lucide-react";
-import ServiceHero from "@/components/ServiceHero";
-import { useParams, useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabase";
+import { notFound } from "next/navigation";
+import { ArrowLeft, ArrowRight, Check } from "lucide-react";
+import Footer from "@/components/Footer";
+import { getPublicCmsContent } from "@/lib/cms-content";
 
-export default function ServicePage() {
-  const params = useParams();
-  const router = useRouter();
-  const [service, setService] = useState(null);
-  const [allServices, setAllServices] = useState([]);
-  const [loading, setLoading] = useState(true);
+type Props = {
+  params: Promise<{ slug: string }>;
+};
 
-  useEffect(() => {
-    loadServices();
-  }, [params.slug]);
+export const dynamic = "force-dynamic";
 
-  const loadServices = async () => {
-    try {
-      const { data: servicesData, error } = await supabase
-        .from('services')
-        .select('*');
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const cms = await getPublicCmsContent();
+  const service = cms.services.find((item) => item.slug === slug);
 
-      if (error) throw error;
+  if (!service) return { title: "Service not found" };
 
-      setAllServices(servicesData || []);
-      
-      const currentService = servicesData?.find(s => s.slug === params.slug);
-      
-      if (!currentService) {
-        router.push('/services');
-        return;
-      }
-      
-      setService(currentService);
-      setLoading(false);
-    } catch (error) {
-      console.error('Error loading services:', error);
-      setLoading(false);
-    }
+  return {
+    title: service.heroTitle,
+    description: service.heroDescription,
   };
+}
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F4F7FA]">
-        <div className="text-center">
-          <RefreshCw className="animate-spin mx-auto mb-4 text-blue-600" size={48} />
-          <p className="mt-4 text-gray-600">Loading service...</p>
-        </div>
-      </div>
-    );
-  }
+export default async function ServiceDetailPage({ params }: Props) {
+  const { slug } = await params;
+  const cms = await getPublicCmsContent();
+  const service = cms.services.find((item) => item.slug === slug);
 
-  if (!service) {
-    return null;
-  }
+  if (!service) notFound();
+
+  const related = cms.services.filter((item) => item.id !== service.id).slice(0, 3);
+  const showcase = cms.caseStudies.slice(0, 2);
 
   return (
-    <main className="bg-[#F4F7FA] min-h-screen font-sans">
-      <ServiceHero title={service.hero_title || service.name} />
+    <main>
+      <section className="case-hero service-detail-hero">
+        <div className="case-hero-bg" />
+        <div className="shell">
+          <Link href="/services" className="case-back">
+            <ArrowLeft size={16} /> All services
+          </Link>
+          <div className="label">{service.eyebrow}</div>
+          <h1 className="display">{service.heroTitle}</h1>
+          <p className="lead">{service.heroDescription}</p>
+        </div>
+      </section>
 
-      <div className="w-full flex justify-center py-20">
-        <div className="w-[90%] flex flex-col lg:flex-row gap-12">
-          
-          {/* SIDEBAR */}
-          <aside className="lg:w-1/3 order-2 lg:order-1">
-            <div className="sticky top-28 space-y-8">
-              <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
-                <div className="px-8 py-5 border-b border-slate-50 bg-slate-50/50">
-                   <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-400">Service Menu</h4>
-                </div>
-                <div className="flex flex-col">
-                  {allServices.map((svc, i) => (
-                    <Link 
-                      key={i}
-                      href={`/services/${svc.slug}`}
-                      className={`flex items-center justify-between px-8 py-5 border-b border-slate-50 last:border-0 transition-all font-semibold ${
-                        svc.slug === service.slug ? "bg-blue-600 text-white" : "bg-white text-slate-700 hover:bg-slate-50 hover:text-blue-600"
-                      }`}
-                    >
-                      <span className="text-[15px]">{svc.name}</span>
-                      <ChevronRight size={18} />
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              <div className="bg-blue-600 rounded-xl p-8 text-white text-center relative overflow-hidden shadow-xl">
-                <div className="relative z-10">
-                  <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <Cloud size={32} />
-                  </div>
-                  <h4 className="text-2xl font-bold mb-2">Need This Service?</h4>
-                  <p className="text-blue-100 text-sm mb-6 font-light">Get a custom quote for your business.</p>
-                  <Link href="/contact">
-                    <button className="inline-flex items-center justify-center gap-2 font-bold bg-white text-blue-600 px-6 py-4 rounded-lg hover:bg-slate-900 hover:text-white transition-all text-sm w-full">
-                      <Mail size={16} /> Request Quote
-                    </button>
-                  </Link>
-                </div>
-              </div>
-            </div>
+      <section className="section">
+        <div className="shell case-layout">
+          <aside className="case-aside">
+            <div className="label">The opportunity</div>
+            <p>{service.title}</p>
+            <Link href="/contact" className="button-primary service-aside-cta">
+              Discuss this service <ArrowRight size={18} />
+            </Link>
           </aside>
 
-          {/* RIGHT SIDE CONTENT */}
-          <div className="lg:w-2/3 order-1 lg:order-2 space-y-12">
-            <div className="bg-white p-10 md:p-16 rounded-2xl border border-slate-100 shadow-sm">
-              <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-10 tracking-tight">
-                {service.title}
-              </h2>
-              
-              <p className="text-slate-600 text-lg leading-loose mb-12 font-light">
-                {service.description}
-              </p>
+          <div>
+            <article className="case-chapter">
+              <h2>What we build</h2>
+              <p>{service.description}</p>
+              <div className="case-list">
+                {service.features.map((feature) => (
+                  <span key={feature}><Check size={16} /> {feature}</span>
+                ))}
+              </div>
+            </article>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-y-10 py-10 border-t border-slate-50">
-                {service.features && service.features.map((feature, i) => (
-                  <div key={i} className="flex items-start gap-4">
-                    <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0 mt-1">
-                      <Check size={16} className="text-blue-600" />
-                    </div>
-                    <div>
-                      <h5 className="font-bold text-slate-900 text-base">{feature}</h5>
-                    </div>
+            <article className="case-chapter">
+              <h2>Expected outcomes</h2>
+              <div className="solution-list">
+                {service.outcomes.map((outcome, index) => (
+                  <div key={outcome}>
+                    <span>0{index + 1}</span>
+                    <h3>{outcome}</h3>
+                    <p>
+                      Practical improvements designed to make the service easier to
+                      operate, measure and scale inside a Kenyan business context.
+                    </p>
                   </div>
                 ))}
               </div>
-            </div>
+            </article>
 
-            <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-blue-900 p-12 rounded-2xl text-white text-center shadow-2xl">
-              <h3 className="text-3xl font-bold mb-4">Ready to Transform Your Business?</h3>
-              <p className="text-slate-300 text-lg mb-8 max-w-2xl mx-auto">
-                Let's discuss how {service.name.toLowerCase()} can help your organization achieve its goals.
-              </p>
-              <Link href="/contact">
-                <button className="inline-flex items-center gap-3 bg-white text-slate-900 px-8 py-4 rounded-xl font-bold hover:bg-blue-500 hover:text-white transition-all shadow-xl">
-                  Get Started Today
-                  <ChevronRight size={20} />
-                </button>
-              </Link>
-            </div>
+            <article className="case-chapter">
+              <h2>Connected capabilities</h2>
+              <div className="tech-tags">
+                {related.map((item) => (
+                  <Link key={item.id} href={`/services/${item.slug}`}>
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+            </article>
           </div>
         </div>
-      </div>
+      </section>
+
+      <section className="section work-showcase">
+        <div className="shell">
+          <div className="work-intro">
+            <div>
+              <div className="label">Relevant work</div>
+              <h2 className="headline">Systems that show the thinking.</h2>
+            </div>
+            <Link href="/case-studies" className="arrow-link">
+              View work <ArrowRight size={18} />
+            </Link>
+          </div>
+          <div className="editorial-work related-work">
+            {showcase.map((project) => (
+              <Link key={project.id} href={`/case-studies/${project.id}`} className="project wide">
+                <div className="project-media project-system-card">
+                  <div className="project-orb" />
+                  <div className="project-screen">
+                    <span>{project.category}</span>
+                    <strong>{project.industry}</strong>
+                    <small>{project.results[0]}</small>
+                  </div>
+                </div>
+                <div className="project-meta">
+                  <h2>{project.title}</h2>
+                  <span>{project.category}</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <Footer siteSettings={cms.siteSettings} services={cms.services} />
     </main>
   );
 }

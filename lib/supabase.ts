@@ -1,11 +1,32 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = 'https://udxooyigxptdfqdwqmdz.supabase.co';
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVkeG9veWlneHB0ZGZxZHdxbWR6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkxNDczNjYsImV4cCI6MjA4NDcyMzM2Nn0.OH_H9qabumopQDnXw160fiTVFI-g0p3IcrmLDk_UaBg';
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const buildSafeSupabaseUrl = supabaseUrl || "https://placeholder.supabase.co";
+const buildSafeSupabaseAnonKey = supabaseAnonKey || "placeholder-anon-key";
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+export const supabase = createClient(buildSafeSupabaseUrl, buildSafeSupabaseAnonKey, {
   auth: {
     persistSession: false,
     autoRefreshToken: false,
   }
 });
+
+export function createSupabaseAdminClient() {
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl || !serviceRoleKey) {
+    throw new Error("Supabase admin environment variables are not configured.");
+  }
+
+  return createClient(supabaseUrl, serviceRoleKey, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+    },
+  });
+}
+
+export function hasSupabaseConfig() {
+  return Boolean(supabaseUrl && supabaseAnonKey);
+}

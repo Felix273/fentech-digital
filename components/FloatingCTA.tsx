@@ -3,14 +3,17 @@
 import { useState, useEffect } from "react";
 import { Phone, MessageCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 export default function FloatingCTA() {
   const [isVisible, setIsVisible] = useState(false);
   const [showTooltip, setShowTooltip] = useState({ phone: false, whatsapp: false });
+  const pathname = usePathname();
+  const isAdminRoute = pathname.startsWith("/admin");
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 300) {
+      if (!isAdminRoute && window.scrollY > 300) {
         setIsVisible(true);
       } else {
         setIsVisible(false);
@@ -19,7 +22,9 @@ export default function FloatingCTA() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isAdminRoute]);
+
+  if (isAdminRoute) return null;
 
   const phoneNumber = "+254114295869";
   const whatsappNumber = "+254114295869";

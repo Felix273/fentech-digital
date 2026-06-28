@@ -1,115 +1,167 @@
 export interface Service {
+  eyebrow: string;
   id: string;
   name: string;
   slug: string;
   title: string;
   description: string;
   features: string[];
+  outcomes: string[];
   heroTitle: string;
   heroDescription: string;
 }
 
 export const servicesData: Service[] = [
   {
-    id: "cloud-services",
-    name: "Cloud Services",
-    slug: "cloud-services",
-    title: "Scale Without Boundaries. Deploy Anywhere.",
-    description: "Leverage the power of AWS, Azure, and Google Cloud with local expertise. FenTech designs high-availability cloud architectures that reduce operational costs, enhance collaboration, and provide the elastic computing power your business needs to stay competitive.",
+    id: "software-development",
+    eyebrow: "Product Engineering",
+    name: "Software Development",
+    slug: "software-development",
+    title: "Software built around Kenyan business operations.",
+    description: "We design and engineer custom platforms, dashboards, portals and workflow systems for teams that need cleaner operations, better visibility and scalable digital foundations.",
     features: [
-      "Hybrid & Public Cloud Setup",
-      "Cloud Infrastructure Audits",
-      "Automated Disaster Recovery",
-      "Serverless Computing (Lambda)",
-      "DevOps Pipeline Automation",
-      "Managed Database Hosting"
+      "Product discovery and architecture",
+      "Custom dashboards and portals",
+      "API and systems integration",
+      "M-Pesa-ready workflow design",
+      "Quality engineering",
+      "Ongoing product improvement",
     ],
-    heroTitle: "Cloud Services",
-    heroDescription: "Enterprise cloud solutions that scale with your business"
-  },
-  {
-    id: "cyber-security",
-    name: "Cyber Security",
-    slug: "cyber-security",
-    title: "Protect Your Digital Assets",
-    description: "Comprehensive security solutions to protect your business from modern cyber threats.",
-    features: [
-      "24/7 Security Monitoring",
-      "Penetration Testing",
-      "Security Audits",
-      "Compliance Management",
-      "Incident Response",
-      "Security Training"
-    ],
-    heroTitle: "Cyber Security",
-    heroDescription: "Enterprise-grade security for your digital infrastructure"
-  },
-  {
-    id: "it-consulting",
-    name: "IT Consulting",
-    slug: "it-consulting",
-    title: "Strategic IT Advisory",
-    description: "Expert guidance to align your technology with business objectives.",
-    features: [
-      "Technology Strategy",
-      "Digital Transformation",
-      "Infrastructure Planning",
-      "Cost Optimization",
-      "Vendor Management",
-      "IT Roadmap Development"
-    ],
-    heroTitle: "IT Consulting",
-    heroDescription: "Strategic technology consulting for business growth"
-  },
-  {
-    id: "managed-services",
-    name: "Managed Services",
-    slug: "managed-services",
-    title: "Complete IT Management",
-    description: "Full-service IT management so you can focus on your core business.",
-    features: [
-      "24/7 Help Desk Support",
-      "Proactive Monitoring",
-      "Patch Management",
-      "Backup & Recovery",
-      "Network Management",
-      "User Support"
-    ],
-    heroTitle: "Managed Services",
-    heroDescription: "Complete IT infrastructure management and support"
+    outcomes: ["Cleaner operations", "Lower manual workload", "A platform that can scale"],
+    heroTitle: "Custom Software Development",
+    heroDescription: "Purpose-built systems for Kenyan businesses that need technology to simplify real work.",
   },
   {
     id: "web-development",
+    eyebrow: "Digital Presence",
     name: "Web Development",
     slug: "web-development",
-    title: "Modern Web Solutions",
-    description: "Custom web applications built with cutting-edge technologies.",
+    title: "Websites and web platforms that create trust and conversion.",
+    description: "We build premium company websites, e-commerce platforms, customer portals and web applications that load fast, feel credible and work beautifully on mobile.",
     features: [
-      "Custom Web Applications",
-      "E-commerce Solutions",
-      "CMS Development",
-      "API Development",
-      "Progressive Web Apps",
-      "Web Performance Optimization"
+      "Corporate websites",
+      "E-commerce platforms",
+      "Customer portals",
+      "Content management systems",
+      "Local SEO foundations",
+      "Performance optimization",
     ],
+    outcomes: ["Stronger credibility", "Better local search visibility", "More qualified enquiries"],
     heroTitle: "Web Development",
-    heroDescription: "Custom web applications that drive business results"
+    heroDescription: "Conversion-focused websites and web applications for mobile-first Kenyan audiences.",
   },
   {
     id: "mobile-development",
-    name: "Mobile Development",
+    eyebrow: "Mobile Products",
+    name: "Mobile Apps",
     slug: "mobile-development",
-    title: "Native & Cross-Platform Apps",
-    description: "Mobile applications that deliver exceptional user experiences.",
+    title: "Mobile products people can adopt quickly.",
+    description: "We create Android, iOS and cross-platform applications with reliable backends, simple onboarding and practical user journeys designed for real market behaviour.",
     features: [
-      "iOS Development",
-      "Android Development",
-      "Cross-Platform Apps",
-      "Mobile UI/UX Design",
-      "App Store Optimization",
-      "Mobile Security"
+      "Android and iOS apps",
+      "Cross-platform development",
+      "Mobile product strategy",
+      "Backend and API engineering",
+      "Store release support",
+      "Mobile security patterns",
     ],
-    heroTitle: "Mobile Development",
-    heroDescription: "Native and cross-platform mobile applications"
-  }
+    outcomes: ["Higher engagement", "Reliable mobile delivery", "Market-ready adoption"],
+    heroTitle: "Mobile App Development",
+    heroDescription: "Mobile experiences designed for adoption, retention and operational reliability.",
+  },
+  {
+    id: "cloud-services",
+    eyebrow: "Cloud Infrastructure",
+    name: "Cloud Solutions",
+    slug: "cloud-services",
+    title: "Cloud environments designed for speed, resilience and cost control.",
+    description: "We plan, migrate and manage cloud infrastructure across modern hosting platforms while balancing security, reliability, cost and the realities of a growing Kenyan business.",
+    features: [
+      "Cloud strategy and migration",
+      "Architecture reviews",
+      "DevOps automation",
+      "Backup and disaster recovery",
+      "Managed cloud operations",
+      "Cost optimization",
+    ],
+    outcomes: ["Resilient infrastructure", "Predictable cloud costs", "Faster releases"],
+    heroTitle: "Cloud Solutions",
+    heroDescription: "Secure, scalable infrastructure that gives your team room to move faster.",
+  },
+  {
+    id: "cyber-security",
+    eyebrow: "Digital Resilience",
+    name: "Cybersecurity",
+    slug: "cyber-security",
+    title: "Security built into the systems your customers trust.",
+    description: "We help organizations protect customer data, strengthen access controls, reduce exposure and prepare for threats with practical security that supports the business.",
+    features: [
+      "Security assessments",
+      "Vulnerability management",
+      "Cloud security reviews",
+      "Identity and access controls",
+      "Incident readiness",
+      "Security awareness",
+    ],
+    outcomes: ["Reduced exposure", "Stronger data protection", "Better incident readiness"],
+    heroTitle: "Cybersecurity",
+    heroDescription: "Practical protection for your applications, infrastructure, people and data.",
+  },
+  {
+    id: "ai-automation",
+    eyebrow: "Intelligent Operations",
+    name: "AI & Automation",
+    slug: "ai-automation",
+    title: "Turn repetitive work into intelligent workflows.",
+    description: "We identify automation opportunities and build useful AI-enabled workflows for reporting, customer support, documents, sales follow-up and operations.",
+    features: [
+      "Workflow automation",
+      "AI assistants and copilots",
+      "Document intelligence",
+      "CRM and support automation",
+      "Analytics automation",
+      "AI readiness consulting",
+    ],
+    outcomes: ["Less repetitive work", "Faster decisions", "More consistent service"],
+    heroTitle: "AI & Automation",
+    heroDescription: "Useful automation that creates measurable operational value.",
+  },
+  {
+    id: "it-consulting",
+    eyebrow: "Technology Strategy",
+    name: "IT Consulting",
+    slug: "it-consulting",
+    title: "Technology decisions with clarity and commercial discipline.",
+    description: "We help founders and leadership teams decide what to build, what to buy, what to automate and how to modernize without wasting budget.",
+    features: [
+      "Technology strategy",
+      "Digital transformation roadmaps",
+      "Architecture advisory",
+      "Vendor evaluation",
+      "IT governance",
+      "Product planning",
+    ],
+    outcomes: ["Clear priorities", "Lower transformation risk", "Better technology investment"],
+    heroTitle: "IT Consulting",
+    heroDescription: "Independent technology guidance connected to practical execution.",
+  },
+  {
+    id: "managed-services",
+    eyebrow: "Always-on Support",
+    name: "Managed IT",
+    slug: "managed-services",
+    title: "Reliable IT operations for teams that need to stay online.",
+    description: "We monitor, maintain and support your technology environment so your team can focus on customers, service delivery, operations and growth.",
+    features: [
+      "Proactive monitoring",
+      "Help desk support",
+      "Patch and endpoint management",
+      "Backup management",
+      "Network administration",
+      "Technology reporting",
+    ],
+    outcomes: ["Less downtime", "Faster support", "Predictable operations"],
+    heroTitle: "Managed IT Services",
+    heroDescription: "Proactive support and infrastructure management that keeps your business moving.",
+  },
 ];

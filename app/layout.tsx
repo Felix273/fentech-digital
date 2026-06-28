@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/components/Navbar";
 import FloatingCTA from "@/components/FloatingCTA";
+import RevealEffects from "@/components/RevealEffects";
 import localFont from "next/font/local";
 import "./globals.css";
 import { siteConfig } from "@/lib/seo/metadata";
@@ -82,12 +83,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${glacialIndifference.variable} font-sans antialiased`}>
+    <html lang="en" suppressHydrationWarning>
+      <body suppressHydrationWarning className={`${glacialIndifference.variable} font-sans antialiased`}>
         {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
           <GoogleAnalytics measurementId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
         )}
         <Navbar />       
+        <RevealEffects />
         {children}
         <FloatingCTA />
       </body>

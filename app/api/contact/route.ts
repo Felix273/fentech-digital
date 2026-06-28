@@ -1,90 +1,103 @@
-import { NextResponse } from 'next/server';
-import { Resend } from 'resend';
+import { NextResponse } from "next/server";
+import { Resend } from "resend";
+import { createSupabaseAdminClient } from "@/lib/supabase";
 
-// Check if we're in build time
-const isBuildTime = !process.env.NEXT_PUBLIC_SUPABASE_URL;
+export const runtime = "nodejs";
 
-// Only initialize if not in build time
-const resend = isBuildTime ? null : new Resend(process.env.RESEND_API_KEY);
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-// Lazy import supabase only when needed
-async function getSupabase() {
-  const { supabase } = await import('@/lib/supabase');
-  return supabase;
+function clean(value: unknown, maxLength = 1000) {
+  return String(value || "").trim().slice(0, maxLength);
+}
+
+function escapeHtml(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 export async function POST(request: Request) {
-  if (isBuildTime) {
-    return NextResponse.json({ error: 'Service unavailable during build' }, { status: 503 });
-  }
-
   try {
     const body = await request.json();
-    const { firstName, lastName, email, serviceRequired, message, company, phone, priority } = body;
 
-    // Save to Supabase
-    const supabase = await getSupabase();
+    if (clean(body.website, 200)) {
+      return NextResponse.json({ success: true });
+    }
+
+    const firstName = clean(body.firstName, 80);
+    const lastName = clean(body.lastName, 80);
+    const email = clean(body.email, 160).toLowerCase();
+    const company = clean(body.company, 160);
+    const phone = clean(body.phone, 80);
+    const serviceRequired = clean(body.serviceRequired || body.service, 160) || "General enquiry";
+    const message = clean(body.message, 4000);
+
+    if (firstName.length < 2 || lastName.length < 2) {
+      return NextResponse.json({ error: "Please provide your first and last name." }, { status: 400 });
+    }
+
+    if (!emailPattern.test(email)) {
+      return NextResponse.json({ error: "Please provide a valid email address." }, { status: 400 });
+    }
+
+    if (message.length < 10) {
+      return NextResponse.json({ error: "Please share a little more context about your enquiry." }, { status: 400 });
+    }
+
+    const supabase = createSupabaseAdminClient();
     const { data: submission, error: dbError } = await supabase
-      .from('contact_submissions')
-      .insert([
-        {
-          first_name: firstName,
-          last_name: lastName,
-          email,
-          service_required: serviceRequired,
-          message,
-          company: company || null,
-          phone: phone || null,
-          priority: priority || 'medium',
-          created_at: new Date().toISOString(),
-        },
-      ])
-      .select()
+      .from("contact_submissions")
+      .insert({
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        company: company || null,
+        phone: phone || null,
+        service_required: serviceRequired,
+        message,
+        status: "new",
+      })
+      .select("id")
       .single();
 
-    if (dbError) {
-      console.error('Database error:', dbError);
-      return NextResponse.json({ error: 'Failed to save submission' }, { status: 500 });
+    if (dbError) throw dbError;
+
+    const resendKey = process.env.RESEND_API_KEY;
+    const notificationEmail = process.env.CONTACT_NOTIFICATION_EMAIL || "fentechgroup@gmail.com";
+    const fromEmail = process.env.CONTACT_FROM_EMAIL || "FenTech Website <onboarding@resend.dev>";
+
+    if (resendKey) {
+      const resend = new Resend(resendKey);
+      await resend.emails.send({
+        from: fromEmail,
+        to: notificationEmail,
+        replyTo: email,
+        subject: `New FenTech enquiry — ${serviceRequired}`,
+        html: `
+          <h2>New FenTech website enquiry</h2>
+          <p><strong>Name:</strong> ${escapeHtml(firstName)} ${escapeHtml(lastName)}</p>
+          <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+          ${company ? `<p><strong>Company:</strong> ${escapeHtml(company)}</p>` : ""}
+          ${phone ? `<p><strong>Phone:</strong> ${escapeHtml(phone)}</p>` : ""}
+          <p><strong>Service:</strong> ${escapeHtml(serviceRequired)}</p>
+          <p><strong>Message:</strong></p>
+          <p>${escapeHtml(message).replace(/\n/g, "<br>")}</p>
+          <hr>
+          <p><small>Submission ID: ${submission.id}</small></p>
+        `,
+      });
     }
 
-    // Send email notification
-    if (resend) {
-      try {
-        await resend.emails.send({
-          from: 'Fentech Contact Form <onboarding@resend.dev>',
-          to: 'fentechgroup@gmail.com',
-          subject: `New Contact Form Submission - ${serviceRequired}`,
-          html: `
-            <h2>New Contact Form Submission</h2>
-            <p><strong>From:</strong> ${firstName} ${lastName}</p>
-            <p><strong>Email:</strong> ${email}</p>
-            ${company ? `<p><strong>Company:</strong> ${company}</p>` : ''}
-            ${phone ? `<p><strong>Phone:</strong> ${phone}</p>` : ''}
-            <p><strong>Service:</strong> ${serviceRequired}</p>
-            ${priority ? `<p><strong>Priority:</strong> ${priority}</p>` : ''}
-            <p><strong>Message:</strong></p>
-            <p>${message}</p>
-            <hr>
-            <p><small>Submission ID: ${submission.id}</small></p>
-          `,
-        });
-      } catch (emailError) {
-        console.error('Email error:', emailError);
-        // Don't fail the request if email fails
-      }
-    }
-
-    return NextResponse.json({ 
-      success: true, 
-      message: 'Thank you for contacting us! We will get back to you soon.',
-      submissionId: submission.id 
+    return NextResponse.json({
+      success: true,
+      message: "Thank you. We received your enquiry and will respond shortly.",
+      submissionId: submission.id,
     });
-
   } catch (error) {
-    console.error('Contact form error:', error);
-    return NextResponse.json(
-      { error: 'An error occurred. Please try again.' },
-      { status: 500 }
-    );
+    console.error("Contact form error:", error);
+    return NextResponse.json({ error: "Unable to send your enquiry. Please try again." }, { status: 500 });
   }
 }

@@ -1,5 +1,3 @@
-// app/case-studies/data.ts
-
 export interface CaseStudy {
   id: string;
   category: string;
@@ -20,164 +18,179 @@ export interface CaseStudy {
 
 export const caseStudiesData: CaseStudy[] = [
   {
-    id: "insurance-big-data",
-    category: "Cloud Hosting",
-    title: "Major Insurance Provider Saves $750k per Month With Big Data Migration",
-    industry: "Banks & Insurance",
-    about: "Paysafe provides payment solutions that power the everyday. The multinational organisation operates multiple brands across the e-cash, payments processing and digital wallets spectrum, serving over 145 million customers.",
+    id: "sme-commerce-platform",
+    category: "Commerce Platform",
+    title: "A digital storefront and order engine for Kenyan SMEs",
+    industry: "Retail & Distribution",
+    about: "A portfolio showcase for growing Kenyan retailers that need to move beyond WhatsApp-only selling into structured catalogues, payments, order management, and customer follow-up.",
     rating: "5/5",
-    reviewCount: "31 Reviews",
+    reviewCount: "Portfolio showcase",
     stats: [
-      { val: "30,000+", label: "Hours delivered back to the business" },
-      { val: "100%", label: "SOX compliance in Settlement process automation" },
-      { val: "95%+", label: "Success rate of bot case completion" },
-      { val: "6+", label: "For functional release of OBT, RTS and OGS" }
+      { val: "M-Pesa", label: "Payment-aware checkout flow" },
+      { val: "3x", label: "Faster order processing target" },
+      { val: "SEO", label: "Built for local discovery" },
+      { val: "Mobile", label: "Designed for Kenyan buyers" },
     ],
-    challenge: "Following a period of rapid growth through acquisition, Paysafe were looking to achieve enterprise-wide operational efficiencies and alignment.",
+    challenge: "Many Kenyan SMEs sell online, but operations are fragmented across phone calls, Instagram DMs, WhatsApp, spreadsheets, and manual delivery coordination.",
     challengeDetails: [
-      "Lack of process consistency & standardisation across acquired brands.",
-      "Numerous manual and non-transparent processes requiring address.",
-      "Increasing industry regulation and compliance requirements."
+      "No single source of truth for products, customers, payments, and orders.",
+      "Manual follow-ups slowed fulfilment and made repeat sales harder.",
+      "Generic templates did not reflect local payment and delivery realities.",
     ],
-    solutionTitle: "What did Fentech do?",
+    solutionTitle: "A commerce system built for how Kenya buys",
     solutionDetails: [
-      { 
-        title: "Automation Delivery", 
-        desc: "Working with the Automation365 team to identify, design, build, test and deploy automated solutions using UiPath. Delivered 28 Automations across Merchant Services, Consumer Services and Risk." 
+      {
+        title: "Mobile-first storefront",
+        desc: "A fast catalogue experience with clear product pages, search-friendly content, and conversion-focused calls to action.",
       },
-      { 
-        title: "Mobile Chatbot Migration", 
-        desc: "Led the migration of chatbots from web browser platform to mobile (Android/iOS) and implemented an intermediate communication layer for seamless live-agent handoff." 
-      }
+      {
+        title: "Operations dashboard",
+        desc: "A lightweight admin workflow for orders, customer records, fulfilment status, and payment reconciliation.",
+      },
+      {
+        title: "Local payment readiness",
+        desc: "Checkout and order flows designed around M-Pesa behaviour, delivery notes, and customer confirmation.",
+      },
     ],
     results: [
-      "30+ processes delivered",
-      "Over 30,000 hrs delivered back to the business",
-      "100% SOX compliance in Settlement process automation",
-      "95% success rate of bot case completion",
-      "SDK delivered for native platforms (Virtual & Live agent communications)"
+      "Cleaner order workflow",
+      "Better customer follow-up",
+      "Improved local search presence",
+      "Ready for online campaigns",
     ],
-    techStack: ["JavaScript", "TypeScript", "Node.JS", "React", "Swift", "Java", "Objective-C", "RxJava"],
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80"
+    techStack: ["Next.js", "Supabase", "PostgreSQL", "M-Pesa-ready flows", "Analytics"],
+    image: "/editorial/it-product-workshop.webp",
   },
   {
-    id: "coffee-success-story",
-    category: "IT Consulting",
-    title: "Maximizing Efficiency with Proper Technology Implementation – Coffee Success Story",
-    industry: "Retail & Supply Chain",
-    about: "A global coffee distributor seeking to modernize their legacy infrastructure to support a rapidly expanding network of premium retail locations.",
+    id: "sacco-member-portal",
+    category: "Fintech Systems",
+    title: "A secure member portal concept for SACCOs and savings groups",
+    industry: "Financial Services",
+    about: "A secure portal architecture for Kenyan SACCOs, chamas, and member-based finance organizations that need clearer member service, reporting, and digital access.",
     rating: "5/5",
-    reviewCount: "24 Reviews",
+    reviewCount: "Portfolio showcase",
     stats: [
-      { val: "22%", label: "Reduction in supply chain overhead" },
-      { val: "14 countries", label: "Seamless regional rollout" },
-      { val: "100%", label: "Inventory accuracy achieved" },
-      { val: "24/7", label: "Real-time monitoring enabled" }
+      { val: "RBAC", label: "Role-based access model" },
+      { val: "Audit", label: "Activity trail by design" },
+      { val: "Reports", label: "Member and loan visibility" },
+      { val: "Secure", label: "Privacy-first architecture" },
     ],
-    challenge: "The company needed to complete a complex migration on a tight deadline to avoid millions of dollars in post-contract fees and fines.",
+    challenge: "Member service teams often rely on manual records, repeated phone enquiries, and disconnected systems that make reporting and trust harder to maintain.",
     challengeDetails: [
-      "Complex migration on a tight deadline.",
-      "Avoiding millions of dollars in post-contract fees.",
-      "Integration of siloed data across international borders."
+      "Members need faster access to balances, statements, and requests.",
+      "Administrators need better visibility without exposing sensitive data.",
+      "Leadership needs reliable reports for decisions and compliance preparation.",
     ],
-    solutionTitle: "How Fentech Assisted",
+    solutionTitle: "A trust-first digital finance workflow",
     solutionDetails: [
-      { 
-        title: "Modern Infrastructure", 
-        desc: "Provisioning a scalable cloud environment to replace aging on-premise servers." 
+      {
+        title: "Member self-service",
+        desc: "Secure login, profile views, statement requests, support tickets, and notification-ready account updates.",
       },
-      { 
-        title: "Consulting Services", 
-        desc: "Strategic advisory on technology implementation to ensure zero-downtime during the migration phase." 
-      }
+      {
+        title: "Admin operations",
+        desc: "Staff tools for requests, approvals, member records, and reporting with clean permission boundaries.",
+      },
+      {
+        title: "Security foundation",
+        desc: "Audit trails, least-privilege access, encrypted data handling, and monitoring patterns prepared from the start.",
+      },
     ],
     results: [
-      "Avoided $2M+ in potential fines",
-      "Modern infrastructure implementation",
-      "Improved retail data transparency",
-      "Successful global implementation"
+      "Reduced repetitive enquiries",
+      "Cleaner member experience",
+      "Improved reporting confidence",
+      "Stronger data governance",
     ],
-    techStack: ["AWS", "Python", "Docker", "PostgreSQL", "Terraform"],
-    image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&q=80"
+    techStack: ["React", "Node.js", "PostgreSQL", "RBAC", "Cloud hosting"],
+    image: "/editorial/it-cloud-security-ops.webp",
   },
   {
-    id: "london-travel-safety",
-    category: "Mobile Development",
-    title: "Strategic Move to an AI-supported application for Public Safety Travel App in London",
-    industry: "Government & Transport",
-    about: "A public safety initiative focused on helping commuters navigate London with real-time safety updates and live travel data.",
-    rating: "4.9/5",
-    reviewCount: "115 Reviews",
+    id: "clinic-booking-system",
+    category: "Healthcare Product",
+    title: "A patient booking and front-desk workflow for private clinics",
+    industry: "Healthcare",
+    about: "A healthcare workflow for Kenyan clinics that want better appointment management, patient communication, and front-desk visibility without adopting a heavy enterprise system.",
+    rating: "5/5",
+    reviewCount: "Portfolio showcase",
     stats: [
-      { val: "1.2M", label: "Active monthly users" },
-      { val: "300ms", label: "Average route calculation time" },
-      { val: "85%", label: "User safety satisfaction rating" },
-      { val: "Live", label: "Updates for all TFL lines" }
+      { val: "24/7", label: "Booking request availability" },
+      { val: "SMS", label: "Reminder-ready workflow" },
+      { val: "Fast", label: "Front-desk queue visibility" },
+      { val: "Private", label: "Patient data handled carefully" },
     ],
-    challenge: "Commuters needed a reliable way to map safe routes and receive live travel updates in an increasingly complex urban environment.",
+    challenge: "Clinics lose time through manual booking calls, scattered patient notes, missed appointments, and unclear daily schedules.",
     challengeDetails: [
-      "Requirement for real-time data synchronization.",
-      "Need for safe-route AI algorithms.",
-      "High concurrency during peak travel hours."
+      "Patients need simple mobile booking and confirmation.",
+      "Reception teams need one view of appointments and follow-ups.",
+      "Clinic owners need practical reporting without complex software overhead.",
     ],
-    solutionTitle: "Fentech Digital Engineering",
+    solutionTitle: "A simpler digital front desk",
     solutionDetails: [
-      { 
-        title: "AI Journey Planner", 
-        desc: "Development of a journey planner that maps safe routes based on live incident data." 
+      {
+        title: "Booking experience",
+        desc: "A patient-friendly request flow for appointments, service categories, and preferred contact details.",
       },
-      { 
-        title: "Native Mobile Build", 
-        desc: "Building a high-performance app for Android and iOS that provides live travel updates." 
-      }
+      {
+        title: "Clinic dashboard",
+        desc: "A schedule view for staff to confirm visits, update status, and coordinate patient flow.",
+      },
+      {
+        title: "Operational reporting",
+        desc: "Basic insights around bookings, no-shows, service demand, and staff workload.",
+      },
     ],
     results: [
-      "Confidence-driven travel for Londoners",
-      "Modern AI infrastructure",
-      "Seamless real-time travel updates",
-      "Integration with London's maps API"
+      "Clearer appointment flow",
+      "Less front-desk confusion",
+      "Better patient communication",
+      "Useful clinic owner visibility",
     ],
-    techStack: ["React Native", "Firebase", "TensorFlow", "Google Maps API", "Node.JS"],
-    image: "https://images.unsplash.com/photo-1512428559083-a401a30c9550?auto=format&fit=crop&q=80"
+    techStack: ["Next.js", "TypeScript", "Supabase", "SMS-ready architecture", "Analytics"],
+    image: "/editorial/it-software-team.webp",
   },
   {
-    id: "paysafe-rewards",
-    category: "App Development",
-    title: "Convenience, savings, and rewards at your fingertips",
-    industry: "Fintech",
-    about: "A centralized platform for a major payment provider aimed at unifying multiple brand identities under a single rewards ecosystem.",
+    id: "field-service-dashboard",
+    category: "Operations Automation",
+    title: "A field service command centre for logistics and installation teams",
+    industry: "Logistics & Field Operations",
+    about: "A practical operations platform for Nairobi-based teams coordinating deliveries, installations, technicians, vehicles, and customer updates across busy routes.",
     rating: "5/5",
-    reviewCount: "42 Reviews",
+    reviewCount: "Portfolio showcase",
     stats: [
-      { val: "40%", label: "Increase in user retention" },
-      { val: "Ksh 50M+", label: "Saved in operational silos" },
-      { val: "Instant", label: "Reward processing speed" },
-      { val: "Global", label: "Currency support" }
+      { val: "Live", label: "Job status visibility" },
+      { val: "Route", label: "Territory-aware planning" },
+      { val: "Team", label: "Technician assignment flow" },
+      { val: "Proof", label: "Completion evidence ready" },
     ],
-    challenge: "Paysafe’s fast-paced expansion had resulted in a lack of process consistency & standardisation across their acquired brands.",
+    challenge: "Field teams often coordinate work through calls and chat groups, making it difficult to track job status, customer expectations, and daily productivity.",
     challengeDetails: [
-      "Fragmented user experience across multiple apps.",
-      "High cost of maintaining separate rewards engines.",
-      "Need for digital transformation across disparate brands."
+      "Managers need visibility across jobs without constant follow-up calls.",
+      "Technicians need clear assignments and customer details on mobile.",
+      "Customers need reliable updates when delivery or installation plans change.",
     ],
-    solutionTitle: "Our Strategic Approach",
+    solutionTitle: "A connected operations command centre",
     solutionDetails: [
-      { 
-        title: "Digital Transformation", 
-        desc: "Standardizing the rewards engine into a single microservices-based API." 
+      {
+        title: "Dispatch workflow",
+        desc: "Create, assign, prioritize, and monitor jobs with status changes visible to the operations team.",
       },
-      { 
-        title: "User Experience Design", 
-        desc: "Creating a unified mobile interface that prioritizes convenience and savings." 
-      }
+      {
+        title: "Mobile field view",
+        desc: "Technician-friendly job cards, location notes, customer contacts, and completion capture.",
+      },
+      {
+        title: "Performance visibility",
+        desc: "Daily summaries for completed jobs, pending work, bottlenecks, and team workload.",
+      },
     ],
     results: [
-      "Standardised process consistency",
-      "Unified brand experience",
-      "Successful digital transformation",
-      "Direct boost in user rewards engagement"
+      "Fewer coordination gaps",
+      "Better job accountability",
+      "Faster customer updates",
+      "Improved operational visibility",
     ],
-    techStack: ["Kotlin", "Swift UI", "Go", "Kubernetes", "Redis"],
-    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80"
-  }
+    techStack: ["React", "Node.js", "Maps integration", "PostgreSQL", "Cloud deployment"],
+    image: "/editorial/it-cloud-security-ops.webp",
+  },
 ];

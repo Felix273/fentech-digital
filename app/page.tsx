@@ -1,41 +1,37 @@
 import { Metadata } from "next";
-import Hero from "@/components/Hero";
-import StatsBar from "@/components/StatsBar";
-import FeatureBox from "@/components/FeatureBox";
-import About from "@/components/About";
-import Solutions from "@/components/Solutions";
-import Industries from "@/components/Industries";
-import SuccessStories from "@/components/SuccessStories";
-import Testimonials from "@/components/Testimonials";
-import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
-import AfriAdsSlot from "@/components/AfriAdsSlot";
+import Hero from "@/components/Hero";
+import IntroSection from "@/components/IntroSection";
+import ServicesSection from "@/components/ServicesSection";
+import WorkShowcaseSection from "@/components/WorkShowcaseSection";
+import DifferentiatorsSection from "@/components/DifferentiatorsSection";
+import IndustriesSection from "@/components/IndustriesSection";
+import PartnersSection from "@/components/PartnersSection";
+import CTASection from "@/components/CTASection";
+import { getPublicCmsContent } from "@/lib/cms-content";
 import { pageMetadata } from "@/lib/seo/metadata";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: pageMetadata.home.title,
   description: pageMetadata.home.description,
 };
 
-export default function Home() {
+export default async function Home() {
+  const cms = await getPublicCmsContent();
+
   return (
-    <main className="min-h-screen bg-white">
-      <Hero />
-      <AfriAdsSlot zoneId={4} websiteId={4} format="leaderboard" label="Sponsored insight" />
-      <StatsBar />
-      <FeatureBox />
-      <About />
-      <Solutions />
-      <AfriAdsSlot zoneId={4} websiteId={4} format="billboard" label="Partner message" className="bg-slate-50" />
-      <Industries />
-      <SuccessStories />
-      <Testimonials />
-      <AfriAdsSlot zoneId={4} websiteId={4} format="native" label="Recommended for business leaders" />
-      <Contact />
-      <Footer />
-      <footer className="py-10 text-center text-gray-400 text-sm">
-        © {new Date().getFullYear()} FenTech Digital. All rights reserved.
-      </footer>
+    <main>
+      <Hero content={cms.homepage} />
+      <IntroSection content={cms.homepage} metrics={cms.metrics} />
+      <ServicesSection content={cms.homepage} services={cms.services} />
+      <WorkShowcaseSection content={cms.homepage} caseStudies={cms.caseStudies} />
+      <DifferentiatorsSection differentiators={cms.differentiators} />
+      <IndustriesSection content={cms.homepage} industries={cms.industries} />
+      <PartnersSection content={cms.homepage} industries={cms.industries} technologies={cms.technologies} />
+      <CTASection content={cms.homepage} />
+      <Footer siteSettings={cms.siteSettings} services={cms.services} />
     </main>
   );
 }
