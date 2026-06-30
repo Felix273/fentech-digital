@@ -34,6 +34,13 @@ export const metadata: Metadata = {
   authors: [{ name: siteConfig.author }],
   creator: siteConfig.creator,
   publisher: siteConfig.publisher,
+  icons: {
+    icon: [
+      { url: "/brand/fentech-icon.png", type: "image/png" },
+    ],
+    shortcut: "/brand/fentech-icon.png",
+    apple: "/brand/fentech-icon.png",
+  },
   
   openGraph: {
     type: "website",
