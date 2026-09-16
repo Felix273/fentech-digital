@@ -162,6 +162,7 @@ export const cmsSections: CmsSection[] = [
       title: "",
       industry: "",
       category: "",
+      liveUrl: "",
       about: "",
       challenge: "",
       challengeDetails: "",
@@ -178,6 +179,7 @@ export const cmsSections: CmsSection[] = [
       { key: "title", label: "Project title", type: "text" },
       { key: "industry", label: "Industry", type: "text" },
       { key: "category", label: "Category", type: "text" },
+      { key: "liveUrl", label: "Live Project / Demo URL", type: "url" },
       { key: "about", label: "Context / about", type: "textarea" },
       { key: "challenge", label: "Challenge", type: "textarea" },
       { key: "challengeDetails", label: "Challenge details (one per line)", type: "textarea" },
@@ -286,6 +288,7 @@ const caseStudyDefaults = caseStudiesData.map((project) => ({
   title: project.title,
   industry: project.industry,
   category: project.category,
+  liveUrl: project.liveUrl || "",
   about: project.about,
   challenge: project.challenge,
   challengeDetails: project.challengeDetails.join("\n"),
@@ -295,7 +298,7 @@ const caseStudyDefaults = caseStudiesData.map((project) => ({
   stats: project.stats.map((item) => `${item.val} | ${item.label}`).join("\n"),
   techStack: project.techStack.join("\n"),
   image: project.image,
-  featured: true,
+  featured: project.featured ?? true,
 }));
 
 export const cmsDefaults: Record<string, unknown> = {

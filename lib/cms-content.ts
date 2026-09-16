@@ -180,7 +180,8 @@ function normalizeCaseStudy(item: RawRecord, fallback?: CaseStudy): CaseStudy | 
     industry: text(item.industry, fallback?.industry || "Kenyan business"),
     about: text(item.about, fallback?.about || "A practical digital system for a growing Kenyan organization."),
     rating: text(item.rating, fallback?.rating || "5/5"),
-    reviewCount: text(item.reviewCount, fallback?.reviewCount || "Portfolio showcase"),
+    reviewCount: text(item.reviewCount, fallback?.reviewCount || "Verified Project"),
+    liveUrl: text(item.liveUrl, fallback?.liveUrl || ""),
     stats: pairs(item.stats, fallback?.stats || [{ val: "Live", label: "Working digital workflow" }]),
     challenge: text(item.challenge, fallback?.challenge || "The team needed a clearer, more reliable digital workflow."),
     challengeDetails: lines(item.challengeDetails, fallback?.challengeDetails || []),
@@ -189,6 +190,7 @@ function normalizeCaseStudy(item: RawRecord, fallback?: CaseStudy): CaseStudy | 
     results: lines(item.results, fallback?.results || []),
     techStack: lines(item.techStack, fallback?.techStack || []),
     image: text(item.image, fallback?.image || "/editorial/it-software-team.webp"),
+    featured: bool(item.featured, fallback?.featured ?? true),
   };
 }
 
