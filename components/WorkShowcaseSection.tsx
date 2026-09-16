@@ -34,16 +34,27 @@ export default function WorkShowcaseSection({
               className={`project ${index === 0 || index === 3 ? "wide" : ""}`}
               data-reveal
             >
-              <div className="project-media project-system-card">
-                <div className="project-orb" />
-                <div className="project-screen">
-                  <span>{project.category}</span>
-                  <strong>{project.industry}</strong>
-                  <small>{project.results[0]}</small>
-                  {project.liveUrl ? (
-                    <div className="mt-2 text-xs text-amber-400 font-mono">↗ Live URL available</div>
-                  ) : null}
-                </div>
+              <div className="project-media project-system-card overflow-hidden relative">
+                {project.image ? (
+                  <img
+                    src={project.image}
+                    alt={project.title}
+                    className="w-full h-full object-cover rounded-xl transition-transform duration-500 hover:scale-105"
+                    style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+                  />
+                ) : (
+                  <>
+                    <div className="project-orb" />
+                    <div className="project-screen">
+                      <span>{project.category}</span>
+                      <strong>{project.industry}</strong>
+                      <small>{project.results[0]}</small>
+                      {project.liveUrl ? (
+                        <div className="mt-2 text-xs text-amber-400 font-mono">↗ Live URL available</div>
+                      ) : null}
+                    </div>
+                  </>
+                )}
               </div>
               <div className="project-meta">
                 <h3>{project.title}</h3>
