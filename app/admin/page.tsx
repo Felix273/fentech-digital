@@ -15,7 +15,7 @@ import {
   Trash2,
   Upload,
 } from "lucide-react";
-import type { CmsSection } from "@/lib/admin/cms";
+import type { CmsCollectionSection, CmsSection } from "@/lib/admin/cms";
 
 type ContentMap = Record<string, unknown>;
 type Status = { type: "idle" | "loading" | "success" | "error"; message: string };
@@ -431,6 +431,7 @@ function EditorPanel({
 }) {
   const previewHref = getPreviewHref(section.id);
   const itemCount = Array.isArray(value) ? value.length : null;
+  const singular = (section as CmsCollectionSection).singular;
 
   return (
     <article className="admin-card">
@@ -441,7 +442,7 @@ function EditorPanel({
           <p>{section.help}</p>
           <div className="admin-meta-row">
             {dirty ? <span className="admin-dirty">Unsaved changes</span> : <span>Published content loaded</span>}
-            {itemCount !== null ? <span>{itemCount} {itemCount === 1 ? section.singular.toLowerCase() : `${section.singular.toLowerCase()}s`}</span> : null}
+            {itemCount !== null ? <span>{itemCount} {itemCount === 1 ? singular.toLowerCase() : `${singular.toLowerCase()}s`}</span> : null}
           </div>
         </div>
         <div className="admin-card-actions">
