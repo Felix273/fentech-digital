@@ -173,6 +173,13 @@ function normalizeCaseStudy(item: RawRecord, fallback?: CaseStudy): CaseStudy | 
   const title = text(item.title, fallback?.title);
   if (!id || !title) return null;
 
+  const liveUrl = text(item.liveUrl, fallback?.liveUrl || "");
+  let rawImage = text(item.image, fallback?.image || "");
+
+  if (!rawImage && liveUrl) {
+    rawImage = `https://image.thum.io/get/width/1200/crop/800/noanimate/${liveUrl}`;
+  }
+
   return {
     id,
     title,
@@ -181,7 +188,7 @@ function normalizeCaseStudy(item: RawRecord, fallback?: CaseStudy): CaseStudy | 
     about: text(item.about, fallback?.about || "A practical digital system for a growing Kenyan organization."),
     rating: text(item.rating, fallback?.rating || "5/5"),
     reviewCount: text(item.reviewCount, fallback?.reviewCount || "Verified Project"),
-    liveUrl: text(item.liveUrl, fallback?.liveUrl || ""),
+    liveUrl,
     stats: pairs(item.stats, fallback?.stats || [{ val: "Live", label: "Working digital workflow" }]),
     challenge: text(item.challenge, fallback?.challenge || "The team needed a clearer, more reliable digital workflow."),
     challengeDetails: lines(item.challengeDetails, fallback?.challengeDetails || []),
@@ -189,7 +196,7 @@ function normalizeCaseStudy(item: RawRecord, fallback?: CaseStudy): CaseStudy | 
     solutionDetails: solutionPairs(item.solutionDetails, fallback?.solutionDetails || []),
     results: lines(item.results, fallback?.results || []),
     techStack: lines(item.techStack, fallback?.techStack || []),
-    image: text(item.image, fallback?.image || "/editorial/it-software-team.webp"),
+    image: rawImage || "/editorial/it-software-team.webp",
     featured: bool(item.featured, fallback?.featured ?? true),
   };
 }

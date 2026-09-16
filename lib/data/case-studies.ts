@@ -61,7 +61,7 @@ export const caseStudiesData: CaseStudy[] = [
       "Zero downtime serverless architecture on Vercel & Supabase",
     ],
     techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Supabase", "Vercel"],
-    image: "/editorial/it-product-workshop.webp",
+    image: "https://image.thum.io/get/width/1200/crop/800/noanimate/https://jemsamediatech-x57h.vercel.app",
     featured: true,
   },
   {
