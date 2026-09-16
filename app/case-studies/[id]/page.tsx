@@ -48,6 +48,19 @@ export default async function SingleCaseStudyPage({ params }: Props) {
           <div className="label">{project.category} · {project.industry}</div>
           <h1 className="display">{project.title}</h1>
           <p className="lead">{project.challenge}</p>
+          {project.liveUrl ? (
+            <div style={{ marginTop: "1.5rem" }}>
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="arrow-link"
+                style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem" }}
+              >
+                Visit Live Project ({project.liveUrl}) <ArrowRight size={16} />
+              </a>
+            </div>
+          ) : null}
         </div>
       </section>
 

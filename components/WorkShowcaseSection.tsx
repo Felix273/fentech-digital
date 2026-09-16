@@ -40,6 +40,9 @@ export default function WorkShowcaseSection({
                   <span>{project.category}</span>
                   <strong>{project.industry}</strong>
                   <small>{project.results[0]}</small>
+                  {project.liveUrl ? (
+                    <div className="mt-2 text-xs text-amber-400 font-mono">↗ Live URL available</div>
+                  ) : null}
                 </div>
               </div>
               <div className="project-meta">
