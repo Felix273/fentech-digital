@@ -39,8 +39,8 @@ export default function WorkShowcaseSection({
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="w-full h-full object-cover rounded-xl transition-transform duration-500 hover:scale-105"
-                    style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+                    className="w-full h-full object-cover object-top rounded-xl transition-transform duration-500 hover:scale-105"
+                    style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
                   />
                 ) : (
                   <>
