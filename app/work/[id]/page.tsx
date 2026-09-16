@@ -42,7 +42,7 @@ export default async function SingleCaseStudyPage({ params }: Props) {
       <section className="case-hero">
         <div className="case-hero-bg" />
         <div className="shell">
-          <Link href="/case-studies" className="case-back">
+          <Link href="/work" className="case-back">
             <ArrowLeft size={16} /> Back to work
           </Link>
           <div className="label">{project.category} · {project.industry}</div>
@@ -133,13 +133,13 @@ export default async function SingleCaseStudyPage({ params }: Props) {
               <div className="label">Keep exploring</div>
               <h2 className="headline">More systems for Kenyan growth.</h2>
             </div>
-            <Link href="/case-studies" className="arrow-link">
+            <Link href="/work" className="arrow-link">
               All work <ArrowRight size={18} />
             </Link>
           </div>
           <div className="editorial-work related-work">
             {related.map((item) => (
-              <Link key={item.id} href={`/case-studies/${item.id}`} className="project wide">
+              <Link key={item.id} href={`/work/${item.id}`} className="project wide">
                 <div className="project-media project-system-card overflow-hidden relative">
                   {item.image ? (
                     <img
