@@ -140,13 +140,24 @@ export default async function SingleCaseStudyPage({ params }: Props) {
           <div className="editorial-work related-work">
             {related.map((item) => (
               <Link key={item.id} href={`/case-studies/${item.id}`} className="project wide">
-                <div className="project-media project-system-card">
-                  <div className="project-orb" />
-                  <div className="project-screen">
-                    <span>{item.category}</span>
-                    <strong>{item.industry}</strong>
-                    <small>{item.results[0]}</small>
-                  </div>
+                <div className="project-media project-system-card overflow-hidden relative">
+                  {item.image ? (
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-full h-full object-cover rounded-xl transition-transform duration-500 hover:scale-105"
+                      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+                    />
+                  ) : (
+                    <>
+                      <div className="project-orb" />
+                      <div className="project-screen">
+                        <span>{item.category}</span>
+                        <strong>{item.industry}</strong>
+                        <small>{item.results[0]}</small>
+                      </div>
+                    </>
+                  )}
                 </div>
                 <div className="project-meta">
                   <h2>{item.title}</h2>
