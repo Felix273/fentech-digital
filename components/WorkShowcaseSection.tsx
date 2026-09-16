@@ -21,7 +21,7 @@ export default function WorkShowcaseSection({
               {content.workTitle}
             </h2>
           </div>
-          <Link href="/case-studies" className="arrow-link" data-reveal>
+          <Link href="/work" className="arrow-link" data-reveal>
             View all work <ArrowRight size={18} />
           </Link>
         </div>
@@ -30,7 +30,7 @@ export default function WorkShowcaseSection({
           {caseStudies.map((project, index) => (
             <Link
               key={project.id}
-              href={`/case-studies/${project.id}`}
+              href={`/work/${project.id}`}
               className={`project ${index === 0 || index === 3 ? "wide" : ""}`}
               data-reveal
             >

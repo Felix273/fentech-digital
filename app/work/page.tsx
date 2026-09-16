@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   description: pageMetadata.caseStudies.description,
 };
 
-export default async function CaseStudiesPage() {
+export default async function WorkPage() {
   const cms = await getPublicCmsContent();
 
   return (
@@ -35,7 +35,7 @@ export default async function CaseStudiesPage() {
             {cms.caseStudies.map((project, index) => (
               <Link
                 key={project.id}
-                href={`/case-studies/${project.id}`}
+                href={`/work/${project.id}`}
                 className={`project ${index === 0 || index === 3 ? "wide" : ""}`}
                 data-reveal
               >
