@@ -1008,11 +1008,12 @@ footer {
 .project-media {
   overflow: hidden;
   background: #e5e7eb;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 16 / 10;
+  border-radius: 12px;
 }
 
 .project.wide .project-media {
-  aspect-ratio: 16 / 11;
+  aspect-ratio: 16 / 9;
 }
 
 .project-system-card {
@@ -1764,7 +1765,7 @@ footer {
 
   .project-media,
   .project.wide .project-media {
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 3 / 4;
   }
 
   .project-system-card {
