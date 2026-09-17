@@ -982,7 +982,7 @@ footer {
 .editorial-work {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  gap: clamp(18px, 2vw, 32px);
+  gap: clamp(28px, 3.5vw, 56px);
   align-items: start;
 }
 
