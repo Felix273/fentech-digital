@@ -44,7 +44,7 @@ export default async function SingleCaseStudyPage({ params }: Props) {
           className="case-hero-bg"
           style={{
             backgroundImage: project.image
-              ? `linear-gradient(180deg, rgba(8, 15, 38, 0.22), rgba(8, 15, 38, 0.95)), url("${project.image}")`
+              ? `linear-gradient(180deg, rgba(8, 15, 38, 0.75), rgba(8, 15, 38, 0.98)), url("${project.image}")`
               : undefined,
           }}
         />
@@ -70,29 +70,6 @@ export default async function SingleCaseStudyPage({ params }: Props) {
           ) : null}
         </div>
       </section>
-
-      {project.image ? (
-        <section className="section" style={{ paddingTop: "2rem", paddingBottom: "2rem" }}>
-          <div className="shell">
-            <div
-              className="case-media-banner"
-              style={{
-                width: "100%",
-                borderRadius: "16px",
-                overflow: "hidden",
-                border: "1px solid var(--line)",
-                boxShadow: "0 20px 50px rgba(0,0,0,0.15)",
-              }}
-            >
-              <img
-                src={project.image}
-                alt={project.title}
-                style={{ width: "100%", height: "auto", display: "block", objectFit: "cover", objectPosition: "top" }}
-              />
-            </div>
-          </div>
-        </section>
-      ) : null}
 
       <section className="section">
         <div className="shell case-stats">
