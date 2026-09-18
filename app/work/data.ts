@@ -106,6 +106,49 @@ export const caseStudiesData: CaseStudy[] = [
     image: "https://image.thum.io/get/width/1200/crop/800/noanimate/https://dooh-bice.vercel.app/"
   },
   {
+    id: "bold-unity-platform",
+    category: "Enterprise Web Portal",
+    title: "Bold Unity Enterprise Digital Platform",
+    industry: "Enterprise Software / Technology",
+    about: "A modern, high-performance web platform built for Bold Unity to unify organizational workflows, showcase digital services, and engage community stakeholders through interactive digital portals.",
+    rating: "5/5",
+    reviewCount: "Live Production Platform",
+    stats: [
+      { val: "100%", label: "Mobile-Optimized Experience" },
+      { val: "Sub-Second", label: "Page Transition Velocity" },
+      { val: "Cloud-Native", label: "Serverless Deployment" },
+      { val: "Scalable", label: "Modular Architecture" }
+    ],
+    challenge: "Bold Unity required a cohesive digital destination that reflected their brand vision while delivering fast content delivery, intuitive navigation, and reliable infrastructure.",
+    challengeDetails: [
+      "Legacy site structure was fragmented across multiple independent channels.",
+      "Mobile users experienced layout inconsistencies and slow load speeds.",
+      "Content updates required developer involvement instead of structured dynamic publishing."
+    ],
+    solutionTitle: "Unified Enterprise Portal & Component System",
+    solutionDetails: [
+      {
+        title: "Modern Component Architecture",
+        desc: "Engineered reusable, accessible UI elements designed for fast rendering and brand consistency."
+      },
+      {
+        title: "Performance & SEO Optimization",
+        desc: "Built with Next.js App Router and server-side optimization for instant page loads and search visibility."
+      },
+      {
+        title: "Dynamic Content Integration",
+        desc: "Connected structured CMS fields enabling content managers to publish updates seamlessly."
+      }
+    ],
+    results: [
+      "Significantly improved user engagement and time-on-site",
+      "Seamless cross-device responsiveness on mobile and desktop",
+      "Zero-maintenance serverless hosting on Vercel"
+    ],
+    techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Vercel"],
+    image: "https://image.thum.io/get/width/1200/crop/800/noanimate/https://bold-unity-lu-ts.vercel.app/"
+  },
+  {
     id: "insurance-big-data",
     category: "Cloud Hosting",
     title: "Major Insurance Provider Saves $750k per Month With Big Data Migration",
