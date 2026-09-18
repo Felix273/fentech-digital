@@ -167,11 +167,11 @@ export function FeaturedWork() {
       </div>
 
       <div className="grid gap-5 lg:grid-cols-2">
-        {caseStudiesData.map((project, index) => (
+        {caseStudiesData.map((project) => (
           <Link
             key={project.id}
             href={`/work/${project.id}`}
-            className={`project-card group min-h-[430px] p-7 md:p-9 ${index === 0 ? "lg:min-h-[560px]" : ""}`}
+            className="project-card group min-h-[430px] p-7 md:p-9"
           >
             <div className="future-grid absolute inset-0 opacity-25" />
             <div className="absolute right-6 top-6 h-28 w-28 rounded-full bg-primary/100/10 blur-3xl" />
@@ -182,7 +182,7 @@ export function FeaturedWork() {
               </div>
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.2em] text-violet-600">{project.industry}</p>
-                <h3 className={`mt-4 font-bold leading-tight tracking-[-0.045em] text-foreground ${index === 0 ? "text-4xl md:text-6xl" : "text-3xl md:text-4xl"}`}>{project.title}</h3>
+                <h3 className="mt-4 text-3xl font-bold leading-tight tracking-[-0.045em] text-foreground md:text-4xl">{project.title}</h3>
                 <p className="mt-5 max-w-2xl leading-7 text-secondary-300">{project.challenge}</p>
                 <div className="mt-8 flex flex-wrap gap-2">
                   {project.results.slice(0, 3).map((result) => (
