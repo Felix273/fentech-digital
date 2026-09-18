@@ -36,7 +36,7 @@ export default async function WorkPage() {
               <Link
                 key={project.id}
                 href={`/work/${project.id}`}
-                className="project"
+                className={`project ${index === 0 || index === 3 ? "wide" : ""}`}
                 data-reveal
               >
                 <div className="project-media project-system-card overflow-hidden relative">
