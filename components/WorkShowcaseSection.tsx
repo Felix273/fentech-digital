@@ -27,11 +27,11 @@ export default function WorkShowcaseSection({
         </div>
 
         <div className="editorial-work">
-          {caseStudies.map((project, index) => (
+          {caseStudies.map((project) => (
             <Link
               key={project.id}
               href={`/work/${project.id}`}
-              className={`project ${index === 0 || index === 3 ? "wide" : ""}`}
+              className="project"
               data-reveal
             >
               <div className="project-media project-system-card overflow-hidden relative">

@@ -32,11 +32,11 @@ export default async function WorkPage() {
       <section className="section work-showcase">
         <div className="shell">
           <div className="editorial-work">
-            {cms.caseStudies.map((project, index) => (
+            {cms.caseStudies.map((project) => (
               <Link
                 key={project.id}
                 href={`/work/${project.id}`}
-                className={`project ${index === 0 || index === 3 ? "wide" : ""}`}
+                className="project"
                 data-reveal
               >
                 <div className="project-media project-system-card overflow-hidden relative">
