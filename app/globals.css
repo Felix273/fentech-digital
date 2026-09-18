@@ -982,7 +982,7 @@ footer {
 .editorial-work {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  gap: clamp(28px, 4vw, 56px);
+  gap: clamp(44px, 6vw, 96px);
   align-items: start;
 }
 
@@ -1010,12 +1010,8 @@ footer {
 .project-media {
   overflow: hidden;
   background: #e5e7eb;
-  aspect-ratio: 16 / 10;
-  border-radius: 12px;
-}
-
-.project.wide .project-media {
   aspect-ratio: 16 / 9;
+  border-radius: 12px;
 }
 
 .project-system-card {
@@ -1768,9 +1764,8 @@ footer {
     width: 100%;
   }
 
-  .project-media,
-  .project.wide .project-media {
-    aspect-ratio: 3 / 4;
+  .project-media {
+    aspect-ratio: 16 / 9;
   }
 
   .project-system-card {

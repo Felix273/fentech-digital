@@ -146,7 +146,7 @@ export default async function SingleCaseStudyPage({ params }: Props) {
           </div>
           <div className="editorial-work related-work">
             {related.map((item) => (
-              <Link key={item.id} href={`/work/${item.id}`} className="project wide">
+              <Link key={item.id} href={`/work/${item.id}`} className="project">
                 <div className="project-media project-system-card overflow-hidden relative">
                   {item.image ? (
                     <img
