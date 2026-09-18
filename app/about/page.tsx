@@ -46,7 +46,7 @@ export default async function AboutPage() {
               {cms.about.storyLead}
             </p>
             <p className="muted">{cms.about.storyBody}</p>
-            <Link href="/case-studies" className="arrow-link">
+          <Link href="/work" className="arrow-link">
               See what we build <ArrowRight size={18} />
             </Link>
           </div>

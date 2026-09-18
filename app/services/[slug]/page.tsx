@@ -106,7 +106,7 @@ export default async function ServiceDetailPage({ params }: Props) {
               <div className="label">Relevant work</div>
               <h2 className="headline">Systems that show the thinking.</h2>
             </div>
-            <Link href="/case-studies" className="arrow-link">
+            <Link href="/work" className="arrow-link">
               View work <ArrowRight size={18} />
             </Link>
           </div>

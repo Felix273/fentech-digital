@@ -65,6 +65,51 @@ export const caseStudiesData: CaseStudy[] = [
     featured: true,
   },
   {
+    id: "dooh-advertising-network",
+    category: "Digital Out-Of-Home Network",
+    title: "DOOH Digital Advertising & Signage Platform",
+    industry: "AdTech / Digital Media",
+    liveUrl: "https://dooh-bice.vercel.app/",
+    about: "A cloud-based Digital Out-Of-Home (DOOH) advertising network and digital signage management system built for real-time campaign scheduling, dynamic screen inventory control, and audience metrics.",
+    rating: "5/5",
+    reviewCount: "Live Production Platform",
+    stats: [
+      { val: "99.9%", label: "Display Uptime Guarantee" },
+      { val: "Real-Time", label: "Programmatic Ad Delivery" },
+      { val: "Sub-Second", label: "Screen Sync Latency" },
+      { val: "Automated", label: "Campaign Playback Reporting" },
+    ],
+    challenge: "Traditional billboard and digital signage networks struggle with slow manual content updates, fragmented screen hardware, and non-transparent ad proof-of-play reporting.",
+    challengeDetails: [
+      "Updating screen advertisements manually required high operational overhead and field site visits.",
+      "Advertisers lacked instant verification and impression analytics for their campaigns.",
+      "Hardware player disconnects were difficult to detect and remediate automatically.",
+    ],
+    solutionTitle: "Centralized DOOH Network Command & Broadcast Engine",
+    solutionDetails: [
+      {
+        title: "Dynamic Screen Management",
+        desc: "Centralized control panel to organize, group, and schedule media assets across digital displays remotely.",
+      },
+      {
+        title: "Real-Time Playback Verification",
+        desc: "Automated telemetry tracking every ad impression and screen status in real time.",
+      },
+      {
+        title: "Responsive Web Media Player",
+        desc: "Lightweight HTML5 playback engine optimized for high performance across diverse hardware configurations.",
+      },
+    ],
+    results: [
+      "Instant remote campaign deployment across all connected displays",
+      "100% automated proof-of-play reporting for advertisers",
+      "Eliminated manual site maintenance visits for ad scheduling updates",
+    ],
+    techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Vercel", "WebSockets"],
+    image: "https://image.thum.io/get/width/1200/crop/800/noanimate/https://dooh-bice.vercel.app/",
+    featured: true,
+  },
+  {
     id: "sme-commerce-platform",
     category: "Commerce Engine",
     title: "Integrated Mobile Commerce & Order Management Platform",

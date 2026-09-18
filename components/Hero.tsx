@@ -35,7 +35,7 @@ export default function Hero({ content }: { content: HomepageContent }) {
             <Link href="/contact" className="button-primary">
               Start a project <ArrowRight size={18} />
             </Link>
-            <Link href="/case-studies" className="button-secondary">
+            <Link href="/work" className="button-secondary">
               Explore our work
             </Link>
           </div>
