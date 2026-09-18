@@ -119,7 +119,7 @@ export default function SuccessStories() {
                   </div>
 
                   <Link 
-                    href={`/case-studies/${story.id}`}
+                    href={`/work/${story.id}`}
                     className="flex items-center gap-3 text-slate-900 font-bold uppercase tracking-widest text-xs group-hover:text-blue-600 transition-all"
                   >
                     Learn More 

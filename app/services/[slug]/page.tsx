@@ -106,13 +106,13 @@ export default async function ServiceDetailPage({ params }: Props) {
               <div className="label">Relevant work</div>
               <h2 className="headline">Systems that show the thinking.</h2>
             </div>
-            <Link href="/case-studies" className="arrow-link">
+            <Link href="/work" className="arrow-link">
               View work <ArrowRight size={18} />
             </Link>
           </div>
           <div className="editorial-work related-work">
             {showcase.map((project) => (
-              <Link key={project.id} href={`/case-studies/${project.id}`} className="project wide">
+              <Link key={project.id} href={`/work/${project.id}`} className="project wide">
                 <div className="project-media project-system-card">
                   <div className="project-orb" />
                   <div className="project-screen">

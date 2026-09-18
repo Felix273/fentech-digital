@@ -7,7 +7,7 @@ import type { PublicCmsContent, SiteSettingsContent } from "@/lib/cms-content";
 
 const companyLinks = [
   { href: "/about", label: "About" },
-  { href: "/case-studies", label: "Work" },
+  { href: "/work", label: "Work" },
   { href: "/contact", label: "Contact" },
 ];
 

@@ -161,7 +161,7 @@ export function FeaturedWork() {
           title="Work designed to help Kenyan clients see what is possible."
           description="A portfolio-style showcase of the systems we can design and build for businesses that need practical digital growth."
         />
-        <Link href="/case-studies" className="button-secondary shrink-0">
+        <Link href="/work" className="button-secondary shrink-0">
           View all work <ArrowRight size={17} />
         </Link>
       </div>
@@ -170,7 +170,7 @@ export function FeaturedWork() {
         {caseStudiesData.map((project, index) => (
           <Link
             key={project.id}
-            href={`/case-studies/${project.id}`}
+            href={`/work/${project.id}`}
             className={`project-card group min-h-[430px] p-7 md:p-9 ${index === 0 ? "lg:min-h-[560px]" : ""}`}
           >
             <div className="future-grid absolute inset-0 opacity-25" />

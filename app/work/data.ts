@@ -20,6 +20,92 @@ export interface CaseStudy {
 
 export const caseStudiesData: CaseStudy[] = [
   {
+    id: "jem-sa-mediatech",
+    category: "Digital Agency & Media",
+    title: "JemSA Media Tech Business Portal & Client CMS",
+    industry: "Media & Technology",
+    about: "A full-scale custom digital agency web application and control center built for JemSA Media Tech to showcase services, manage client inquiries, and handle content dynamically.",
+    rating: "5/5",
+    reviewCount: "Client Verified",
+    stats: [
+      { val: "100%", label: "Dynamic CMS Content" },
+      { val: "Sub-second", label: "Page Load Speed" },
+      { val: "Real-time", label: "Lead Notification System" },
+      { val: "Mobile-First", label: "Responsive Architecture" }
+    ],
+    challenge: "JemSA Media Tech needed a high-performance web presence with a specialized back-office dashboard to manage client contacts, showcase media projects, and update agency metrics instantly.",
+    challengeDetails: [
+      "Standard template builders lacked performance, bespoke branding, and local control.",
+      "Inquiries and client proposals were losing velocity due to disconnected email threads.",
+      "The agency needed an intuitive admin portal that team members could manage without code."
+    ],
+    solutionTitle: "Custom Agency Hub with Integrated Admin Control",
+    solutionDetails: [
+      {
+        title: "High-Impact Visual Storefront",
+        desc: "Designed modern dark-mode aesthetics with smooth interactions and responsive hero sections."
+      },
+      {
+        title: "Real-Time Admin Management",
+        desc: "Engineered a dedicated admin portal for updating service offerings, team portfolios, and lead stages."
+      },
+      {
+        title: "Secure API & Contact Pipeline",
+        desc: "Integrated serverless API routes with validation for instant lead delivery and database logging."
+      }
+    ],
+    results: [
+      "3x Increase in Client Consultation Conversions",
+      "Instant administrative updates without developer deployment",
+      "Zero downtime serverless architecture on Vercel & Supabase"
+    ],
+    techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Supabase", "Vercel"],
+    image: "https://image.thum.io/get/width/1200/crop/800/noanimate/https://jemsamediatech-x57h.vercel.app"
+  },
+  {
+    id: "dooh-advertising-network",
+    category: "Digital Out-Of-Home Network",
+    title: "DOOH Digital Advertising & Signage Platform",
+    industry: "AdTech / Digital Media",
+    about: "A cloud-based Digital Out-Of-Home (DOOH) advertising network and digital signage management system built for real-time campaign scheduling, dynamic screen inventory control, and audience metrics.",
+    rating: "5/5",
+    reviewCount: "Live Production Platform",
+    stats: [
+      { val: "99.9%", label: "Display Uptime Guarantee" },
+      { val: "Real-Time", label: "Programmatic Ad Delivery" },
+      { val: "Sub-Second", label: "Screen Sync Latency" },
+      { val: "Automated", label: "Campaign Playback Reporting" }
+    ],
+    challenge: "Traditional billboard and digital signage networks struggle with slow manual content updates, fragmented screen hardware, and non-transparent ad proof-of-play reporting.",
+    challengeDetails: [
+      "Updating screen advertisements manually required high operational overhead and field site visits.",
+      "Advertisers lacked instant verification and impression analytics for their campaigns.",
+      "Hardware player disconnects were difficult to detect and remediate automatically."
+    ],
+    solutionTitle: "Centralized DOOH Network Command & Broadcast Engine",
+    solutionDetails: [
+      {
+        title: "Dynamic Screen Management",
+        desc: "Centralized control panel to organize, group, and schedule media assets across digital displays remotely."
+      },
+      {
+        title: "Real-Time Playback Verification",
+        desc: "Automated telemetry tracking every ad impression and screen status in real time."
+      },
+      {
+        title: "Responsive Web Media Player",
+        desc: "Lightweight HTML5 playback engine optimized for high performance across diverse hardware configurations."
+      }
+    ],
+    results: [
+      "Instant remote campaign deployment across all connected displays",
+      "100% automated proof-of-play reporting for advertisers",
+      "Eliminated manual site maintenance visits for ad scheduling updates"
+    ],
+    techStack: ["Next.js", "TypeScript", "Tailwind CSS", "Vercel", "WebSockets"],
+    image: "https://image.thum.io/get/width/1200/crop/800/noanimate/https://dooh-bice.vercel.app/"
+  },
+  {
     id: "insurance-big-data",
     category: "Cloud Hosting",
     title: "Major Insurance Provider Saves $750k per Month With Big Data Migration",
