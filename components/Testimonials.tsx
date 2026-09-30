@@ -9,12 +9,8 @@ export default function Testimonials() {
   const [testimonials, setTestimonials] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    loadTestimonials();
-  }, []);
-
   const loadTestimonials = async () => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('testimonials')
       .select('*')
       .order('created_at', { ascending: false });
@@ -24,6 +20,10 @@ export default function Testimonials() {
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    queueMicrotask(() => void loadTestimonials());
+  }, []);
 
   if (loading) {
     return (
@@ -55,7 +55,7 @@ export default function Testimonials() {
               </h2>
               
               <p className="text-slate-500 text-xl font-light leading-relaxed mb-10">
-                We don't just provide services; we integrate into your team to build the future of your industry.
+                We don&apos;t just provide services; we integrate into your team to build the future of your industry.
               </p>
 
               <div className="flex items-center gap-8 opacity-40 grayscale contrast-125">
@@ -80,7 +80,7 @@ export default function Testimonials() {
                   {[...Array(featured.rating)].map((_, i) => <Star key={i} size={18} className="fill-blue-500 text-blue-500" />)}
                 </div>
                 <blockquote className="text-2xl md:text-3xl font-medium leading-snug mb-10 relative z-10">
-                  "{featured.text}"
+                  &quot;{featured.text}&quot;
                 </blockquote>
                 <div className="flex items-center gap-5">
                   <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-400 p-1">
@@ -104,7 +104,7 @@ export default function Testimonials() {
                   transition={{ delay: idx * 0.2 }}
                   className="bg-slate-50 border border-slate-100 p-8 rounded-2xl hover:bg-white hover:shadow-xl transition-all duration-500"
                 >
-                  <p className="text-slate-600 text-lg mb-8 italic">"{item.text}"</p>
+                  <p className="text-slate-600 text-lg mb-8 italic">&quot;{item.text}&quot;</p>
                   <div className="flex items-center gap-4">
                     <img src={item.image} className="w-12 h-12 rounded-full border-2 border-white shadow-sm" alt={item.name} />
                     <div>

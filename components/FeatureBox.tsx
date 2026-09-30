@@ -30,7 +30,7 @@ export default function FeatureBox() {
   return (
     <section className="py-20 px-6 bg-white">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12 items-stretch">
-        
+
         {/* LEFT SIDE: THE BLACK BOX */}
         <div className="lg:w-1/3 bg-[#0a0c10] rounded-xl p-10 md:p-14 flex flex-col justify-center shadow-xl border border-white/5">
           <div className="flex items-center gap-4 mb-6">
@@ -39,16 +39,16 @@ export default function FeatureBox() {
               Our Core Strengths
             </span>
           </div>
-          
+
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight leading-tight">
-            Innovation. <br /> 
+            Innovation. <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-100 italic">
               Engineered.
             </span>
           </h2>
-          
+
           <p className="text-slate-400 text-lg leading-relaxed font-light">
-            We don't just solve problems; we build the digital infrastructure 
+            We don&apos;t just solve problems; we build the digital infrastructure
             that allows your business to transcend traditional limitations.
           </p>
         </div>
@@ -58,9 +58,9 @@ export default function FeatureBox() {
           {features.map((item, index) => {
             // This is the trick: assign the icon to a component variable
             const IconComponent = item.icon;
-            
+
             return (
-              <motion.div 
+              <motion.div
                 key={index}
                 initial={{ opacity: 0, x: 20 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -70,12 +70,12 @@ export default function FeatureBox() {
               >
                 {/* ICON BOX */}
                 <div className="mb-6 p-4 bg-blue-50 w-fit rounded-lg group-hover:bg-blue-600 transition-all duration-300">
-                  <IconComponent 
-                    size={28} 
-                    className="text-blue-600 group-hover:text-white transition-colors duration-300" 
+                  <IconComponent
+                    size={28}
+                    className="text-blue-600 group-hover:text-white transition-colors duration-300"
                   />
                 </div>
-                
+
                 <h3 className="text-2xl font-bold text-slate-900 mb-3">
                   {item.title}
                 </h3>

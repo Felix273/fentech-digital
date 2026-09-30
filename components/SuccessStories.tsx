@@ -30,12 +30,8 @@ export default function SuccessStories() {
   const [stories, setStories] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    loadStories();
-  }, []);
-
   const loadStories = async () => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from('case_studies')
       .select('*')
       .order('created_at', { ascending: false })
@@ -46,6 +42,10 @@ export default function SuccessStories() {
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    queueMicrotask(() => void loadStories());
+  }, []);
 
   if (loading) {
     return (

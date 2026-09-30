@@ -36,8 +36,6 @@ export default function AfriAdsSlot({
   );
 
   useEffect(() => {
-    setIsPopulated(false);
-
     const container = document.getElementById(containerId);
     if (!container) return;
 

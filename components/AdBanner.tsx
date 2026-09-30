@@ -17,7 +17,7 @@ export default function AdBanner({
 }: AdBannerProps) {
   useEffect(() => {
     try {
-      // @ts-ignore
+      // @ts-expect-error The AdSense global is loaded by the provider script.
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch (err) {
       console.error('AdSense error:', err);

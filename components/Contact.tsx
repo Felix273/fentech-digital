@@ -72,15 +72,15 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Clear previous status
     setSubmitStatus(null);
 
     // Validate form
     if (!validateForm()) {
-      setSubmitStatus({ 
-        type: 'error', 
-        message: 'Please fix the errors below before submitting' 
+      setSubmitStatus({
+        type: 'error',
+        message: 'Please fix the errors below before submitting'
       });
       return;
     }
@@ -99,9 +99,9 @@ export default function Contact() {
       const data = await response.json();
 
       if (response.ok) {
-        setSubmitStatus({ 
-          type: 'success', 
-          message: 'Thank you! Your message has been sent successfully. We\'ll get back to you soon.' 
+        setSubmitStatus({
+          type: 'success',
+          message: 'Thank you! Your message has been sent successfully. We\'ll get back to you soon.'
         });
         setFormData({
           firstName: "",
@@ -112,15 +112,15 @@ export default function Contact() {
         });
         setErrors({});
       } else {
-        setSubmitStatus({ 
-          type: 'error', 
-          message: data.error || 'Something went wrong. Please try again.' 
+        setSubmitStatus({
+          type: 'error',
+          message: data.error || 'Something went wrong. Please try again.'
         });
       }
     } catch (error) {
-      setSubmitStatus({ 
-        type: 'error', 
-        message: 'Failed to send message. Please check your connection and try again.' 
+      setSubmitStatus({
+        type: 'error',
+        message: 'Failed to send message. Please check your connection and try again.'
       });
     } finally {
       setIsSubmitting(false);
@@ -144,14 +144,14 @@ export default function Contact() {
 
   return (
     <section className="py-24 px-6 bg-gradient-to-br from-[#0f172a] via-[#0a0c10] to-[#020617] relative overflow-hidden">
-      
+
       {/* Dynamic Glow Accents */}
       <div className="absolute -top-24 -left-24 w-96 h-96 bg-blue-600/10 blur-[120px] rounded-full pointer-events-none" />
       <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-blue-500/10 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-          
+
           {/* LEFT COLUMN: BRANDING & BENEFITS */}
           <div className="lg:col-span-4 space-y-10">
             <div>
@@ -163,7 +163,7 @@ export default function Contact() {
                 Partner with Us for <br /> Comprehensive IT
               </h2>
               <p className="text-slate-400 text-lg font-light leading-relaxed">
-                We're happy to answer any questions you may have and help you determine 
+                We&apos;re happy to answer any questions you may have and help you determine
                 which of our services best fit your needs.
               </p>
             </div>
@@ -193,10 +193,10 @@ export default function Contact() {
           {/* MIDDLE COLUMN: THE PROCESS */}
           <div className="lg:col-span-3 space-y-8 lg:border-l lg:border-white/10 lg:pl-12">
             <h4 className="text-white font-bold mb-8 uppercase tracking-wider text-xs opacity-70">What happens next?</h4>
-            
+
             <div className="space-y-12 relative">
               <div className="absolute left-[19px] top-2 bottom-2 w-[1px] bg-white/10 -z-0" />
-              
+
               {[
                 { step: "1", title: "Schedule a call", desc: "At your convenience", icon: <Calendar size={18}/> },
                 { step: "2", title: "Discovery", desc: "Consulting meeting", icon: <Search size={18}/> },
@@ -216,7 +216,7 @@ export default function Contact() {
 
             <div className="pt-8">
               <button className="text-blue-500 font-bold flex items-center gap-2 hover:gap-4 transition-all group">
-                Schedule a Free Consultation 
+                Schedule a Free Consultation
                 <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
@@ -229,8 +229,8 @@ export default function Contact() {
                 <div className="grid grid-cols-2 gap-5">
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold text-slate-400 uppercase ml-1">First Name *</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       name="firstName"
                       value={formData.firstName}
                       onChange={handleChange}
@@ -247,8 +247,8 @@ export default function Contact() {
                   </div>
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold text-slate-400 uppercase ml-1">Last Name *</label>
-                    <input 
-                      type="text" 
+                    <input
+                      type="text"
                       name="lastName"
                       value={formData.lastName}
                       onChange={handleChange}
@@ -264,11 +264,11 @@ export default function Contact() {
                     )}
                   </div>
                 </div>
-                
+
                 <div className="space-y-1">
                   <label className="text-[10px] font-bold text-slate-400 uppercase ml-1">Company Email *</label>
-                  <input 
-                    type="email" 
+                  <input
+                    type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
@@ -286,7 +286,7 @@ export default function Contact() {
 
                 <div className="space-y-1">
                   <label className="text-[10px] font-bold text-slate-400 uppercase ml-1">Service Required</label>
-                  <select 
+                  <select
                     name="serviceRequired"
                     value={formData.serviceRequired}
                     onChange={handleChange}
@@ -305,8 +305,8 @@ export default function Contact() {
 
                 <div className="space-y-1">
                   <label className="text-[10px] font-bold text-slate-400 uppercase ml-1">Message *</label>
-                  <textarea 
-                    rows={3} 
+                  <textarea
+                    rows={3}
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
@@ -323,12 +323,12 @@ export default function Contact() {
                 </div>
 
                 {submitStatus && (
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     className={`p-4 rounded-xl flex items-start gap-3 ${
-                      submitStatus.type === 'success' 
-                        ? 'bg-green-50 text-green-800 border border-green-200' 
+                      submitStatus.type === 'success'
+                        ? 'bg-green-50 text-green-800 border border-green-200'
                         : 'bg-red-50 text-red-800 border border-red-200'
                     }`}
                   >
@@ -336,8 +336,8 @@ export default function Contact() {
                     <span className="text-sm">{submitStatus.message}</span>
                   </motion.div>
                 )}
-                
-                <motion.button 
+
+                <motion.button
                   type="submit"
                   disabled={isSubmitting}
                   whileHover={{ scale: isSubmitting ? 1 : 1.01 }}

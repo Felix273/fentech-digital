@@ -28,7 +28,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: true }, { headers: rateLimitHeaders(limit) });
     }
     const parsed = validateContactPayload(body);
-    if (!parsed.success) {
+    if (parsed.success === false) {
       return NextResponse.json({ error: Object.values(parsed.errors)[0] || "Invalid enquiry." }, { status: 400 });
     }
     const { data } = parsed;
