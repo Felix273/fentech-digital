@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { cmsDefaults, cmsSections } from "@/lib/admin/cms";
 import { requireAdminSession } from "@/lib/admin/auth";
 import { createSupabaseAdminClient } from "@/lib/supabase";
+import { PUBLIC_CMS_CACHE_TAG } from "@/lib/cms-content";
+import { getClientAddress, rateLimit, rateLimitHeaders, sameOrigin } from "@/lib/security/rate-limit";
 
 const sectionIds = cmsSections.map((section) => section.id);
 
@@ -42,7 +45,14 @@ export async function GET() {
 
 export async function PUT(request: Request) {
   try {
+    if (!sameOrigin(request)) {
+      return NextResponse.json({ error: "Invalid request origin." }, { status: 403 });
+    }
     await requireAdminSession();
+    const limit = rateLimit(`cms-write:${getClientAddress(request)}`, { limit: 120, windowMs: 60 * 60 * 1000 });
+    if (!limit.allowed) {
+      return NextResponse.json({ error: "Publishing limit reached. Try again later." }, { status: 429, headers: rateLimitHeaders(limit) });
+    }
     const { id, content } = await request.json();
 
     if (!sectionIds.includes(id)) {
@@ -58,7 +68,9 @@ export async function PUT(request: Request) {
 
     if (error) throw error;
 
-    return NextResponse.json({ success: true, row: data });
+    revalidateTag(PUBLIC_CMS_CACHE_TAG, "max");
+
+    return NextResponse.json({ success: true, row: data }, { headers: rateLimitHeaders(limit) });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unable to save content.";
     const status = message === "Unauthorized" ? 401 : 500;

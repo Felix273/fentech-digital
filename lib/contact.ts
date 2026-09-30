@@ -50,6 +50,9 @@ export function validateContactPayload(input: unknown):
   if (data.message.length < 10 || data.message.length > 5000) {
     errors.message = "Message must be between 10 and 5,000 characters.";
   }
+  if (!["low", "medium", "high", "urgent"].includes(data.priority || "")) {
+    errors.priority = "Priority is invalid.";
+  }
   if ((data.company?.length ?? 0) > 120) {
     errors.company = "Company name is too long.";
   }

@@ -9,8 +9,6 @@ type Props = {
   params: Promise<{ id: string }>;
 };
 
-export const dynamic = "force-dynamic";
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   const cms = await getPublicCmsContent();

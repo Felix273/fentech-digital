@@ -12,6 +12,7 @@ export default function Hero({ content }: { content: HomepageContent }) {
       <Hero3DObject />
       <div className="shell">
         <div className="hero-kicker">
+          <span className="hero-status"><i aria-hidden="true" /> Live systems · Nairobi</span>
           <span className="label" style={{ color: "var(--cyan)" }}>
             {content.heroKicker}
           </span>
@@ -40,6 +41,19 @@ export default function Hero({ content }: { content: HomepageContent }) {
             </Link>
           </div>
         </div>
+
+        <aside className="hero-signal-card" aria-label="FenTech delivery signal">
+          <div className="signal-card-top">
+            <span>FENTECH / SIGNAL</span>
+            <span className="signal-live"><i aria-hidden="true" /> ACTIVE</span>
+          </div>
+          <strong>Digital systems<br />built to move.</strong>
+          <div className="signal-card-grid">
+            <span><b>01</b> Clarity</span>
+            <span><b>02</b> Control</span>
+            <span><b>03</b> Growth</span>
+          </div>
+        </aside>
       </div>
     </section>
   );

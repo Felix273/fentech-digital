@@ -2,8 +2,8 @@ export const siteConfig = {
   name: "Fentech Digital Solutions",
   title: "Fentech Digital | Enterprise IT Solutions & Services in Kenya",
   description: "Leading IT solutions provider in Kenya offering managed services, cloud computing, cybersecurity, web & mobile development. Transform your business with Fentech Digital.",
-  url: "https://fentech.digital", // Update with your actual domain when you have one
-  ogImage: "/og-image.jpg", // We'll create this
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://fentech.digital",
+  ogImage: "/opengraph-image",
   keywords: [
     "IT services Kenya",
     "managed IT services Nairobi",

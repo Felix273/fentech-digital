@@ -1,11 +1,15 @@
 import { NextResponse } from "next/server";
 import { requireAdminSession } from "@/lib/admin/auth";
 import { createSupabaseAdminClient } from "@/lib/supabase";
+import { sameOrigin } from "@/lib/security/rate-limit";
 
 const allowedStatuses = new Set(["new", "contacted", "qualified", "won", "lost", "archived"]);
 
 export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    if (!sameOrigin(request)) {
+      return NextResponse.json({ error: "Invalid request origin." }, { status: 403 });
+    }
     await requireAdminSession();
     const { id } = await params;
     const { status } = await request.json();

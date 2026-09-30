@@ -792,18 +792,18 @@ function MediaPanel({
         <span className="text-xs uppercase font-mono tracking-wider text-cyan-400">Asset Vault</span>
         <h2 className="text-2xl font-light text-white tracking-tight">Upload Media & Images</h2>
         <p className="text-sm text-gray-400 mt-1">
-          Upload project screenshots, team photos, or documents directly to Supabase Cloud Storage.
+          Upload JPEG, PNG, WebP, or PDF assets. The server validates file signatures and generates a unique storage key.
         </p>
       </header>
 
       <form className="max-w-xl space-y-4" onSubmit={onUpload}>
         <label className="dark-admin-label">
           <span>Select Media File</span>
-          <input name="file" type="file" accept="image/*,video/*,application/pdf" required />
+          <input name="file" type="file" accept="image/jpeg,image/png,image/webp,application/pdf" required />
         </label>
         <label className="dark-admin-label">
-          <span>Target Path / Filename</span>
-          <input name="path" placeholder="projects/jemsa-dashboard.webp" required />
+          <span>Storage Folder</span>
+          <input name="folder" defaultValue="uploads" pattern="[a-zA-Z0-9/_-]+" required />
         </label>
         <button type="submit" className="dark-admin-btn-primary">
           <Upload size={16} /> Upload Asset

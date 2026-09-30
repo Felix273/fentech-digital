@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import Footer from "@/components/Footer";
 import { getPublicCmsContent } from "@/lib/cms-content";
 
-export const dynamic = "force-dynamic";
-
 export const metadata: Metadata = {
   title: "Terms of Use",
   description: "Terms of use for FenTech Digital - Kenya's leading IT solutions provider.",

@@ -3,6 +3,10 @@ import { caseStudiesData, type CaseStudy } from "@/lib/data/case-studies";
 import { servicesData, type Service } from "@/lib/data/services";
 import { differentiators, kenyanMarkets, metrics, processSteps, technologies } from "@/lib/site-data";
 import { createSupabaseAdminClient } from "@/lib/supabase";
+import { unstable_cache } from "next/cache";
+
+export const PUBLIC_CMS_CACHE_TAG = "public-cms";
+const PUBLIC_CMS_REVALIDATE_SECONDS = 300;
 
 type RawRecord = Record<string, unknown>;
 
@@ -309,8 +313,14 @@ async function loadRawContent() {
   return content;
 }
 
+const getCachedRawContent = unstable_cache(
+  loadRawContent,
+  ["public-cms-content"],
+  { revalidate: PUBLIC_CMS_REVALIDATE_SECONDS, tags: [PUBLIC_CMS_CACHE_TAG] },
+);
+
 export async function getPublicCmsContent(): Promise<PublicCmsContent> {
-  const raw = await loadRawContent();
+  const raw = await getCachedRawContent();
 
   return {
     siteSettings: objectSection(raw.site_settings, cmsDefaults.site_settings as SiteSettingsContent),

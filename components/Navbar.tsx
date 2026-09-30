@@ -58,6 +58,8 @@ export default function Navbar() {
           <img src="/brand/fentech-logo.png" alt="FenTech Digital" width={112} height={30} />
         </Link>
 
+        <span className="nav-signal"><i aria-hidden="true" /> Systems online</span>
+
         <nav className="desktop-nav" aria-label="Main navigation">
           {navLinks.map((link) => (
             <Link
