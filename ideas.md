@@ -1,6 +1,6 @@
 # FenTech UI direction: Signal Grid
 
-**Reference:** Better Stack DESIGN.md analysis from [getdesign.md](https://getdesign.md/design-md/betterstack), adapted rather than copied.
+**References:** Better Stack, Penpot, and Sparkles DESIGN.md analyses from [getdesign.md](https://getdesign.md/), adapted rather than copied.
 
 ## Direction
 
@@ -39,6 +39,10 @@ Use a centered max-width system, generous gutters, thin rules, compact labels, a
 - A hero “system pulse” panel that turns the existing 3D visual area into a framed, technical instrument.
 - Section labels with a leading status dot and uppercase tracking.
 - Proof cards with metrics, service categories, and arrow affordances.
+
+## Menu treatment
+
+The broader getdesign catalog treats navigation as a product-orientation moment rather than a utility drawer. FenTech's menu follows that principle with a full-screen technical panel: a clear `Explore FenTech` eyebrow, indexed primary routes, arrow affordances, one focused contact CTA, and a compact systems-status rail. Better Stack informs the operational status language, Penpot informs the grouped product-navigation hierarchy, and Sparkles informs the direct action-oriented CTA.
 
 ## Interaction and animation
 

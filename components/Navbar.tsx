@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { ArrowUpRight, X } from "lucide-react";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -78,48 +79,63 @@ export default function Navbar() {
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileOpen}
+          aria-controls="site-menu-panel"
         >
-          <span className="menu-grid">
-            <i /><i /><i />
-            <i /><i /><i />
+          <span className={`menu-icon ${mobileOpen ? "is-open" : ""}`} aria-hidden="true">
             <i /><i /><i />
           </span>
-          Menu
+          <span>{mobileOpen ? "Close" : "Menu"}</span>
         </button>
       </header>
 
-      {/* Mobile Menu Panel */}
-      <div className={`menu-panel ${mobileOpen ? "open" : ""}`}>
-        <div className="menu-top">
-          <Link href="/" aria-label="FenTech Digital home">
-            <img src="/brand/fentech-logo.png" alt="FenTech Digital" width={112} height={30} />
-          </Link>
-          <button
-            type="button"
-            className="menu-close"
-            onClick={() => setMobileOpen(false)}
-            aria-label="Close menu"
-          >
-            ×
-          </button>
-        </div>
-
-        <nav className="menu-links" aria-label="Mobile navigation">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={isActive(link.href) ? "active" : ""}
-              onClick={() => setMobileOpen(false)}
-            >
-              {link.label}
+      <div id="site-menu-panel" className={`menu-panel ${mobileOpen ? "open" : ""}`} role="dialog" aria-modal="true" aria-label="FenTech site menu" aria-hidden={!mobileOpen} inert={!mobileOpen}>
+        <div className="menu-panel-inner">
+          <div className="menu-top">
+            <Link href="/" aria-label="FenTech Digital home" onClick={() => setMobileOpen(false)}>
+              <img src="/brand/fentech-logo.png" alt="FenTech Digital" width={112} height={30} />
             </Link>
-          ))}
-        </nav>
+            <button type="button" className="menu-close" onClick={() => setMobileOpen(false)} aria-label="Close menu">
+              <X size={22} strokeWidth={1.5} />
+              <span>Close</span>
+            </button>
+          </div>
 
-        <div className="menu-foot">
-          <span>Kenyan technology partner</span>
-          <span>© {new Date().getFullYear()} FenTech</span>
+          <div className="menu-heading">
+            <span className="menu-eyebrow"><i aria-hidden="true" /> Explore FenTech</span>
+            <p>Practical digital systems for ambitious Kenyan businesses.</p>
+          </div>
+
+          <div className="menu-content">
+            <nav className="menu-links" aria-label="Site navigation">
+              <span className="menu-group-label">Navigate</span>
+              {navLinks.map((link, index) => (
+                <Link key={link.href} href={link.href} className={isActive(link.href) ? "active" : ""} onClick={() => setMobileOpen(false)}>
+                  <span className="menu-link-index">0{index + 1}</span>
+                  <span>{link.label}</span>
+                  <ArrowUpRight size={22} strokeWidth={1.5} />
+                </Link>
+              ))}
+            </nav>
+
+            <aside className="menu-aside">
+              <div className="menu-aside-card">
+                <span className="menu-group-label">Start here</span>
+                <strong>Have a system<br />that needs to move?</strong>
+                <Link href="/contact" className="menu-cta" onClick={() => setMobileOpen(false)}>
+                  Talk to our team <ArrowUpRight size={18} />
+                </Link>
+              </div>
+              <div className="menu-meta">
+                <span><i aria-hidden="true" /> Systems online</span>
+                <span>Nairobi · Kenya</span>
+              </div>
+            </aside>
+          </div>
+
+          <div className="menu-foot">
+            <span>Software · Cloud · Cybersecurity · Automation</span>
+            <span>© {new Date().getFullYear()} FenTech Digital</span>
+          </div>
         </div>
       </div>
     </>
