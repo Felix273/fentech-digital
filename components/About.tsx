@@ -1,5 +1,6 @@
 "use client";
 import { CheckCircle2 } from "lucide-react";
+import Image from "next/image";
 
 export default function About() {
   const points = ["Expert Technical Support", "Custom Strategic Planning", "Advanced Security Protocols", "Scalable Cloud Infrastructure"];
@@ -8,7 +9,7 @@ export default function About() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         <div className="relative">
           <div className="absolute -top-4 -left-4 w-24 h-24 bg-blue-600 -z-10 rounded-lg"></div>
-          <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" alt="Team" className="rounded-xl shadow-2xl relative z-10" />
+          <Image src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" alt="Team" width={800} height={533} className="rounded-xl shadow-2xl relative z-10" />
         </div>
         <div>
           <span className="text-blue-600 font-bold uppercase tracking-widest text-sm mb-4 block">About FenTech Digital</span>

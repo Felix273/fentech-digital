@@ -76,12 +76,6 @@ export default function AdminPage() {
   }, [sectionQuery, sections]);
 
   const dashboardStats = useMemo(() => {
-    const totalCollectionItems = sections.reduce((total, section) => {
-      if (section.kind !== "collection") return total;
-      const items = content[section.id];
-      return total + (Array.isArray(items) ? items.length : 0);
-    }, 0);
-
     const newSubmissions = submissions.filter((s) => s.status === "new").length;
 
     return [

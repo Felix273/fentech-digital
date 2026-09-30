@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Footer from "@/components/Footer";
@@ -39,11 +40,12 @@ export default async function WorkPage() {
               >
                 <div className="project-media project-system-card overflow-hidden relative">
                   {project.image ? (
-                    <img
+                    <Image
                       src={project.image}
                       alt={project.title}
+                      fill
+                      sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
                       className="w-full h-full object-cover object-top rounded-xl transition-transform duration-500 hover:scale-105"
-                      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
                     />
                   ) : (
                     <>

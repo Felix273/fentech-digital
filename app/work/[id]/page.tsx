@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
@@ -147,11 +148,12 @@ export default async function SingleCaseStudyPage({ params }: Props) {
               <Link key={item.id} href={`/work/${item.id}`} className="project wide">
                 <div className="project-media project-system-card overflow-hidden relative">
                   {item.image ? (
-                    <img
+                    <Image
                       src={item.image}
                       alt={item.title}
+                      fill
+                      sizes="(max-width: 600px) 100vw, 50vw"
                       className="w-full h-full object-cover object-top rounded-xl transition-transform duration-500 hover:scale-105"
-                      style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }}
                     />
                   ) : (
                     <>

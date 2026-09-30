@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Check, Phone, ArrowRight, Calendar, Search, FileText, Loader2, AlertCircle } from "lucide-react";
+import { Check, ArrowRight, Calendar, Search, FileText, Loader2, AlertCircle } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 
 export default function Contact() {
@@ -117,7 +117,7 @@ export default function Contact() {
           message: data.error || 'Something went wrong. Please try again.'
         });
       }
-    } catch (error) {
+    } catch {
       setSubmitStatus({
         type: 'error',
         message: 'Failed to send message. Please check your connection and try again.'

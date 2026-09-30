@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { ArrowUpRight, X } from "lucide-react";
@@ -56,7 +57,7 @@ export default function Navbar() {
     <>
       <header className={`site-header ${scrolled ? "scrolled" : ""}`}>
         <Link href="/" className="brand" aria-label="FenTech Digital home">
-          <img src="/brand/fentech-logo.png" alt="FenTech Digital" width={112} height={30} />
+          <Image src="/brand/fentech-logo.png" alt="FenTech Digital" width={112} height={30} />
         </Link>
 
         <span className="nav-signal"><i aria-hidden="true" /> Systems online</span>
@@ -92,7 +93,7 @@ export default function Navbar() {
         <div className="menu-panel-inner">
           <div className="menu-top">
             <Link href="/" aria-label="FenTech Digital home" onClick={() => setMobileOpen(false)}>
-              <img src="/brand/fentech-logo.png" alt="FenTech Digital" width={112} height={30} />
+              <Image src="/brand/fentech-logo.png" alt="FenTech Digital" width={112} height={30} />
             </Link>
             <button type="button" className="menu-close" onClick={() => setMobileOpen(false)} aria-label="Close menu">
               <X size={22} strokeWidth={1.5} />

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Star, Quote, RefreshCw } from "lucide-react";
@@ -84,7 +85,7 @@ export default function Testimonials() {
                 </blockquote>
                 <div className="flex items-center gap-5">
                   <div className="w-16 h-16 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-400 p-1">
-                      <img src={featured.image} className="rounded-full border-2 border-[#0a0c10]" alt={featured.name} />
+                      <Image src={featured.image} width={64} height={64} className="rounded-full border-2 border-[#0a0c10]" alt={featured.name} />
                   </div>
                   <div>
                     <h4 className="text-xl font-bold">{featured.name}</h4>
@@ -106,7 +107,7 @@ export default function Testimonials() {
                 >
                   <p className="text-slate-600 text-lg mb-8 italic">&quot;{item.text}&quot;</p>
                   <div className="flex items-center gap-4">
-                    <img src={item.image} className="w-12 h-12 rounded-full border-2 border-white shadow-sm" alt={item.name} />
+                    <Image src={item.image} width={48} height={48} className="w-12 h-12 rounded-full border-2 border-white shadow-sm" alt={item.name} />
                     <div>
                       <h5 className="font-bold text-slate-900">{item.name}</h5>
                       <p className="text-xs text-blue-600 font-bold uppercase tracking-wider">{item.role}</p>
