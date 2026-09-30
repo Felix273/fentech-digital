@@ -390,14 +390,14 @@ export default function AdminPage() {
           <button type="button" className="dark-admin-btn-primary" onClick={() => void saveAllChanges()}>
             Publish All {dirtySections.size ? `(${dirtySections.size})` : ""}
           </button>
-          <button type="button" className="dark-admin-btn-danger" onClick={() => void logout()}>
+          <button type="button" className="dark-admin-btn-danger" onClick={() => void logout()} aria-label="Sign out of Control Room">
             <LogOut size={15} />
           </button>
         </div>
       </header>
 
       {status.message ? (
-        <div className={`dark-admin-status ${status.type} mb-6`}>{status.message}</div>
+        <div role={status.type === "error" ? "alert" : "status"} aria-live="polite" className={`dark-admin-status ${status.type} mb-6`}>{status.message}</div>
       ) : null}
 
       {/* Main Control Grid */}
@@ -411,11 +411,12 @@ export default function AdminPage() {
                 value={sectionQuery}
                 onChange={(e) => setSectionQuery(e.target.value)}
                 placeholder="Search CMS sections..."
+                aria-label="Search CMS sections"
               />
             </label>
           </div>
 
-          <nav className="space-y-1">
+          <nav className="space-y-1" aria-label="Admin sections">
             <button
               type="button"
               className={`dark-sidebar-nav-btn ${activeTab === "dashboard" ? "active" : ""}`}

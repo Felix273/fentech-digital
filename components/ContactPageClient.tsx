@@ -155,7 +155,7 @@ export default function ContactPageClient({
             </label>
 
             {message ? (
-              <p className={`form-status ${status === "error" ? "form-error" : ""}`}>{message}</p>
+              <p role={status === "error" ? "alert" : "status"} aria-live="polite" className={`form-status ${status === "error" ? "form-error" : ""}`}>{message}</p>
             ) : null}
 
             <button className="form-submit" type="submit" disabled={status === "loading"}>
