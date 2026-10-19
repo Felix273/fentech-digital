@@ -7,14 +7,14 @@
 :root {
   --background: #ffffff;
   --foreground: #0f172a;
-  --ink: #0f172a;
+  --ink: #0A0B0D;
   --paper: #ffffff;
   --white: #ffffff;
-  --blue: #2563eb;
-  --blue-dark: #1d4ed8;
+  --blue: #0052FF;
+  --blue-dark: #003ECC;
   --cyan: #06b6d4;
-  --muted: #64748b;
-  --line: rgba(15, 23, 42, 0.18);
+  --muted: #5B616E;
+  --line: #E2E5EA;
   --gutter: clamp(20px, 4.2vw, 68px);
   --max: 1440px;
   --header: 88px;
@@ -173,8 +173,11 @@ button {
   align-items: center;
   justify-content: space-between;
   padding-inline: var(--gutter);
-  transition: background 0.35s, color 0.35s, border-color 0.35s;
-  color: var(--white);
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  transition: box-shadow 0.2s ease;
 }
 
 .site-header.scrolled,
@@ -190,9 +193,7 @@ button {
   height: auto;
 }
 
-.site-header:not(.scrolled):not(.force-light) .brand img {
-  filter: brightness(0) invert(1);
-}
+.site-header:not(.scrolled):not(.force-light) .brand img { filter: none; }
 
 .desktop-nav {
   display: flex;
@@ -363,12 +364,16 @@ footer {
 .button-primary {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  justify-content: center;
+  gap: 8px;
   background: var(--blue);
-  color: var(--white);
-  padding: 15px 24px;
+  color: #ffffff;
+  padding: 12px 24px;
+  font-size: 15px;
   font-weight: 500;
-  transition: transform 0.25s, background 0.25s;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  transition: background-color 0.18s ease, transform 0.15s ease;
 }
 
 .button-primary:hover {
@@ -379,11 +384,16 @@ footer {
 .button-secondary {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  border: 1px solid var(--line);
-  padding: 15px 24px;
+  justify-content: center;
+  gap: 8px;
+  background: #F5F6F8;
+  color: var(--ink);
+  padding: 12px 24px;
+  font-size: 15px;
   font-weight: 500;
-  transition: transform 0.25s, border-color 0.25s;
+  border-radius: 9999px;
+  border: 1px solid var(--line);
+  transition: background-color 0.18s ease, border-color 0.18s ease;
 }
 
 .button-secondary:hover {
@@ -429,9 +439,7 @@ footer {
     border-bottom: 1px solid var(--line);
   }
 
-  .site-header:not(.scrolled):not(.force-light) .brand img {
-    filter: none;
-  }
+  .site-header:not(.scrolled):not(.force-light) .brand img { filter: none; }
 
   .footer-grid {
     grid-template-columns: 1fr 1fr;
@@ -2186,14 +2194,14 @@ footer {
 /* Signal Grid direction — adapted from the Better Stack reference on getdesign.md. */
 :root {
   --paper: #f7faf9;
-  --ink: #07111f;
+  --ink: #0A0B0D;
   --foreground: #07111f;
-  --blue: #6da8ff;
-  --blue-dark: #4e8de8;
+  --blue: #0052FF;
+  --blue-dark: #003ECC;
   --cyan: #5eead4;
   --signal: #9fffc8;
-  --muted: #536274;
-  --line: rgba(7, 17, 31, 0.13);
+  --muted: #5B616E;
+  --line: #E2E5EA;
 }
 
 body { background: var(--paper); }
@@ -2684,7 +2692,7 @@ body:has(.home-hero) .site-header.force-light {
 }
 
 body:has(.home-hero) .brand img,
-body:has(.home-hero) .site-header:not(.scrolled):not(.force-light) .brand img { filter: brightness(0) invert(1); }
+body:has(.home-hero) .site-header:not(.scrolled):not(.force-light) .brand img { filter: none; }
 body:has(.home-hero) .nav-signal { color: var(--linear-ink-subtle); }
 body:has(.home-hero) .nav-signal i,
 body:has(.home-hero) .hero-status i,

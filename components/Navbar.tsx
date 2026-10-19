@@ -1,10 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { ArrowUpRight, X } from "lucide-react";
+import { Menu, X, ArrowRight } from "lucide-react";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -22,7 +21,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 18);
+      setScrolled(window.scrollY > 12);
     };
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -56,11 +55,15 @@ export default function Navbar() {
   return (
     <>
       <header className={`site-header ${scrolled ? "scrolled" : ""}`}>
-        <Link href="/" className="brand" aria-label="FenTech Digital home">
-          <Image src="/brand/fentech-logo.png" alt="FenTech Digital" width={112} height={30} />
+        <Link href="/" className="brand flex items-center" aria-label="FenTech Digital home">
+          <img
+            src="/brand/fentech-logo.png"
+            alt="FenTech Digital"
+            width={120}
+            height={32}
+            className="object-contain"
+          />
         </Link>
-
-        <span className="nav-signal"><i aria-hidden="true" /> Systems online</span>
 
         <nav className="desktop-nav" aria-label="Main navigation">
           {navLinks.map((link) => (
@@ -74,69 +77,71 @@ export default function Navbar() {
           ))}
         </nav>
 
+        <div className="hidden md:flex items-center gap-3">
+          <Link href="/contact" className="button-primary text-sm !py-2.5 !px-5">
+            <span>Get in touch</span>
+            <ArrowRight className="w-4 h-4 ml-0.5" />
+          </Link>
+        </div>
+
         <button
           type="button"
-          className="menu-button"
+          className="md:hidden flex items-center justify-center p-2 text-neutral-800 hover:text-black focus:outline-none"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileOpen}
-          aria-controls="site-menu-panel"
         >
-          <span className={`menu-icon ${mobileOpen ? "is-open" : ""}`} aria-hidden="true">
-            <i /><i /><i />
-          </span>
-          <span>{mobileOpen ? "Close" : "Menu"}</span>
+          {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </header>
 
-      <div id="site-menu-panel" className={`menu-panel ${mobileOpen ? "open" : ""}`} role="dialog" aria-modal="true" aria-label="FenTech site menu" aria-hidden={!mobileOpen} inert={!mobileOpen}>
-        <div className="menu-panel-inner">
-          <div className="menu-top">
-            <Link href="/" aria-label="FenTech Digital home" onClick={() => setMobileOpen(false)}>
-              <Image src="/brand/fentech-logo.png" alt="FenTech Digital" width={112} height={30} />
+      {/* Mobile Coinbase-style drawer */}
+      <div
+        className={`fixed inset-0 z-[1200] bg-white text-[#0A0B0D] flex flex-col justify-between p-6 transition-all duration-300 ease-in-out md:hidden ${
+          mobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none translate-y-3"
+        }`}
+      >
+        <div className="flex items-center justify-between border-b border-[#E2E5EA] pb-5">
+          <Link href="/" onClick={() => setMobileOpen(false)}>
+            <img src="/brand/fentech-logo.png" alt="FenTech Digital" width={112} height={30} />
+          </Link>
+          <button
+            type="button"
+            className="p-2 text-neutral-600 hover:text-black"
+            onClick={() => setMobileOpen(false)}
+            aria-label="Close menu"
+          >
+            <X className="w-6 h-6" />
+          </button>
+        </div>
+
+        <nav className="flex flex-col gap-5 py-8" aria-label="Mobile navigation">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`text-2xl font-medium tracking-tight ${
+                isActive(link.href) ? "text-[#0052FF]" : "text-[#0A0B0D]"
+              }`}
+              onClick={() => setMobileOpen(false)}
+            >
+              {link.label}
             </Link>
-            <button type="button" className="menu-close" onClick={() => setMobileOpen(false)} aria-label="Close menu">
-              <X size={22} strokeWidth={1.5} />
-              <span>Close</span>
-            </button>
-          </div>
+          ))}
+        </nav>
 
-          <div className="menu-heading">
-            <span className="menu-eyebrow"><i aria-hidden="true" /> Explore FenTech</span>
-            <p>Practical digital systems for ambitious Kenyan businesses.</p>
-          </div>
-
-          <div className="menu-content">
-            <nav className="menu-links" aria-label="Site navigation">
-              <span className="menu-group-label">Navigate</span>
-              {navLinks.map((link, index) => (
-                <Link key={link.href} href={link.href} className={isActive(link.href) ? "active" : ""} onClick={() => setMobileOpen(false)}>
-                  <span className="menu-link-index">0{index + 1}</span>
-                  <span>{link.label}</span>
-                  <ArrowUpRight size={22} strokeWidth={1.5} />
-                </Link>
-              ))}
-            </nav>
-
-            <aside className="menu-aside">
-              <div className="menu-aside-card">
-                <span className="menu-group-label">Start here</span>
-                <strong>Have a system<br />that needs to move?</strong>
-                <Link href="/contact" className="menu-cta" onClick={() => setMobileOpen(false)}>
-                  Talk to our team <ArrowUpRight size={18} />
-                </Link>
-              </div>
-              <div className="menu-meta">
-                <span><i aria-hidden="true" /> Systems online</span>
-                <span>Nairobi · Kenya</span>
-              </div>
-            </aside>
-          </div>
-
-          <div className="menu-foot">
-            <span>Software · Cloud · Cybersecurity · Automation</span>
-            <span>© {new Date().getFullYear()} FenTech Digital</span>
-          </div>
+        <div className="flex flex-col gap-4 border-t border-[#E2E5EA] pt-6">
+          <Link
+            href="/contact"
+            className="button-primary w-full text-center justify-center py-3.5"
+            onClick={() => setMobileOpen(false)}
+          >
+            <span>Start a project</span>
+            <ArrowRight className="w-4 h-4 ml-1" />
+          </Link>
+          <p className="text-xs text-[#5B616E] text-center">
+            Kenyan digital engineering & enterprise solutions
+          </p>
         </div>
       </div>
     </>
